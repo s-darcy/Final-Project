@@ -1,4 +1,8 @@
+const _ = require('lodash');
 const express = require('express');
+const async = require('async');
+const bodyParser = require('body-parser');
+const request = require('superagent');
 const mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -7,9 +11,28 @@ var connection = mysql.createConnection({
   password : 'root',
   database : 'BreweryTapHandles'
 });
+
+connection.connect((error) => {
+    if(!!error){
+        console.log("Error connecting to Shane's Database");
+    } else {
+        console.log("Connected to Shane's Database");
+    }
+});
+
 const app = express();
 
-connection.connect();
+// app.use(express.bodyParser());
+
+app.get('/', (req, res) => {
+    connection.query("SELECT * FROM TapHandles", (err, rows, fields) => {
+        if(!!err){
+            console.log('Error in the query');
+        } else {
+            console.log('Successful query');
+        }
+    });
+});
 
 // connection.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
 //   if (err) throw err
@@ -26,10 +49,10 @@ connection.connect();
 //       });
 //     });
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
-app.listen(5000, function () {
+app.listen(5000, () => {
   console.log('The Beer Taps Ecommerce site is running on Port 5000!')
 });
