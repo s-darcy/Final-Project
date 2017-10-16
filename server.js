@@ -3,6 +3,7 @@ const express = require('express');
 const async = require('async');
 const bodyParser = require('body-parser');
 const request = require('superagent');
+const moment = require('moment');
 const mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -38,12 +39,13 @@ app.get('/', (req, res) => {
     });
 });
 
-//Insert Post 1
+//Insert an order
 app.get('/addpost', (req, res) => {
-    let sql = "INSERT INTO `Order` (CustomerID, Quantity, TotalPrice) VALUES ?";
+    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    let sql = "INSERT INTO `Order` (CustomerID, Quantity, Date, TotalPrice) VALUES ?";
     var values = [
-        [2, 3, 90.00],
-        [3, 2, 50.00]
+        [2, 3, mysqlTimestamp, 90.00],
+        [3, 2, mysqlTimestamp, 50.00]
     ];
     connection.query(sql, [values], (err, result) => {
         if(err) throw err;
@@ -52,7 +54,7 @@ app.get('/addpost', (req, res) => {
     });
 });
 
-//Select single post
+//Select single order
 app.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM \`TapHandles\` WHERE ProductID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
@@ -62,10 +64,10 @@ app.get('/getpost/:id', (req, res) => {
     });
 });
 
-//Update post
+//Update an order
 app.get('/updatepost/:id', (req, res) => {
     let newQuantity = 'Updated Quantity';
-    let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE id = ${req.params.id}`;
+    let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
         if(err) throw err;
         console.log(result);
@@ -73,10 +75,10 @@ app.get('/updatepost/:id', (req, res) => {
     });
 });
 
-//Delete Post
+//Delete an order
 app.get('/deletepost/:id', (req, res) => {
     let newQuantity = 'Updated Quantity';
-    let sql = `DELETE FROM \`Order\` WHERE id = ${req.params.id}`;
+    let sql = `DELETE FROM \`Order\` WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
         if(err) throw err;
         console.log(result);
