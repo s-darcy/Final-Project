@@ -25,6 +25,7 @@ const app = express();
 
 // app.use(express.bodyParser());
 
+//Pulls all product details from TapHandles table
 app.get('/', (req, res) => {
     connection.query("SELECT * FROM TapHandles", (err, result) => {
         if(!!err){
@@ -37,10 +38,52 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+//Insert Post 1
+app.get('/addpost', (req, res) => {
+    let sql = "INSERT INTO `Order` (CustomerID, Quantity, TotalPrice) VALUES ?";
+    var values = [
+        [2, 3, 90.00],
+        [3, 2, 50.00]
+    ];
+    connection.query(sql, [values], (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('Post 1 added');
+    });
 });
 
-app.listen('5000', () => {
+//Select single post
+app.get('/getpost/:id', (req, res) => {
+    let sql = `SELECT * FROM \`TapHandles\` WHERE ProductID = ${req.params.id}`;
+    connection.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('Post fetched...');
+    });
+});
+
+//Update post
+app.get('/updatepost/:id', (req, res) => {
+    let newQuantity = 'Updated Quantity';
+    let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE id = ${req.params.id}`;
+    connection.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('Post updated...');
+    });
+});
+
+//Delete Post
+app.get('/deletepost/:id', (req, res) => {
+    let newQuantity = 'Updated Quantity';
+    let sql = `DELETE FROM \`Order\` WHERE id = ${req.params.id}`;
+    connection.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('Post deleted...');
+    });
+});
+
+app.listen(5000, () => {
   console.log('The Beer Taps Ecommerce site is running on Port 5000!')
 });
