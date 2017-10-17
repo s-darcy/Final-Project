@@ -27,14 +27,16 @@ const app = express();
 // app.use(express.bodyParser());
 
 //Pulls all product details from TapHandles table
-app.get('/', (req, res) => {
-    connection.query("SELECT * FROM TapHandles", (err, result) => {
+app.get('/products/:id', (req, res) => {
+    let sql = `SELECT * FROM \`TapHandles\` WHERE ProductID = ${req.params.id}`;
+    connection.query(sql, (err, result) => {
         if(!!err){
             console.log('Error in the query');
         } else {
             console.log('Successful query');
             console.log(result);
-            res.send('Database created...');
+            res.send('Products returned...\n');
+            res.send.render(result);
         }
     });
 });
