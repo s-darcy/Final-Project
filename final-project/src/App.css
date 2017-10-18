@@ -4,6 +4,10 @@ body {
     margin: 4%;
 }
 
+ul {
+    list-style: none;
+}
+
 .products {
     display: grid;
     grid-template-columns: 5fr 5fr 5fr;

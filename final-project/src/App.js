@@ -1,35 +1,63 @@
 import React, { Component } from 'react';
 import './App.css';
+import request from 'superagent';
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      quantity: [],
+      products : [],
+      quantity : [],
+      
       title: 'Craft Beer Tap Handles Store'
     };
 
     this.handleQuantity = this.handleQuantity.bind(this);
+    this.handleProducts = this.handleProducts.bind(this);
   }
 
   handleQuantity(event) {
     event.preventDefault();
-    this.setState({value: event.target.value});
-    console.log("You have added " + event.target.value);
+    let quantitySelected = event.target.value;
+    this.state.quantity.push(quantitySelected);
+    this.setState({value: quantitySelected});
+    console.log("You have added " + quantitySelected);
+    console.log(this.state.quantity);
+  }
+
+  handleProducts(event) {
+    event.preventDefault();
+    let productSelected = event.target.name;
+    this.state.products.push(productSelected);
+    this.setState({value: productSelected});
+    console.log("The product that you have selected is " + productSelected);
+    console.log(this.state.products);
   }
 
   render() {
     let title = this.state.title;
+    let quantity = this.state.quantity;
+    let products = this.state.products;
     return (
       
       <div className="App">
         <h1>{title}</h1>
+        <pre>
+          {JSON.stringify(quantity, products)}
+        </pre>
+        <h2>Your Cart</h2> 
+        <ul>
+          {quantity.map((quantitySelected, i) => <li>{quantitySelected}</li>)}
+          {products.map((productSelected, i) => <li>{productSelected}</li>)}
+        </ul>   
         <div className="products">
           <div>
-            <h2>21st Amendment Blah, Blah, Blah Tap Handle</h2>
             <form>
-              <img alt="21st Amendment Blah, Blah, Blah Tap Handle" src="img/21stAmendment.JPG" />
+              <button name="21st Amendment Blah, Blah, Blah Tap Handle" onClick={this.handleProducts}>
+                <h3>21st Amendment Blah, Blah, Blah Tap Handle</h3>
+                <img onClick={this.handleProducts} alt="21st Amendment Blah, Blah, Blah Tap Handle" src="img/21stAmendment.JPG" />
+              </button>
               <select value={this.state.value} onChange={this.handleQuantity}>
                 <option value="null">--</option>
                 <option value="1">1</option>
@@ -77,6 +105,19 @@ class App extends Component {
       </div> //App
     );
   }
+
+  componentWillMount() {
+    var self = this;
+    request.get('http://localhost:5000/products')
+    .then((res) => {
+      //SET STATE ON THIS
+      console.log("here response: ", res.body);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
 }
+
 
 export default App;
