@@ -7,7 +7,7 @@ class ProductInfo extends Component {
       return (
         <div key={this.props.product.ProductID}>
         <button name={this.props.product.Name} onClick={this.handleProducts}>
-          <h3 >{this.props.product.Name}</h3>
+          <h3>{this.props.product.Name}</h3>
           <img alt={this.props.product.Name} src={process.env.PUBLIC_URL + this.props.product.Images} /> 
           <p>{this.props.product.Description}</p>
           <p>${this.props.product.Price}.00</p>
