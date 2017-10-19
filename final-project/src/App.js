@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 import request from 'superagent';
+import ProductInfo from './ProductInfo';
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
+      availableProducts :[],
       products : [],
       quantity : [],
-      
+
       title: 'Craft Beer Tap Handles Store'
     };
-
+    this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleProducts = this.handleProducts.bind(this);
+
+    this.fetchProducts();
   }
 
   handleQuantity(event) {
@@ -39,8 +43,19 @@ class App extends Component {
     let title = this.state.title;
     let quantity = this.state.quantity;
     let products = this.state.products;
+
+    let eachProduct = 
+      this.state.availableProducts.map((availableProducts, i) => {
+      return (
+        <ProductInfo
+          key={i}
+          product={availableProducts}
+        /> 
+      )
+    }, this);
+    
     return (
-      
+
       <div className="App">
         <h1>{title}</h1>
         <pre>
@@ -50,8 +65,18 @@ class App extends Component {
         <ul>
           {quantity.map((quantitySelected, i) => <li>{quantitySelected}</li>)}
           {products.map((productSelected, i) => <li>{productSelected}</li>)}
-        </ul>   
-        <div className="products">
+        </ul>
+        <div className="products"> 
+          {eachProduct}
+          <div>
+            <img alt="Sierra Nevada Torpdeo Tap Handle" src="img/SierraNevada.JPG" />
+          </div>
+          <div>
+            <img alt="Sweet Water 420 Tap Handle" src="img/SweetWater.JPG" />
+          </div>
+          <div>
+            <img alt="Coast Brewing Tap Handle" src="img/Coast.JPG" />
+          </div>
           <div>
             <form>
               <button name="21st Amendment Blah, Blah, Blah Tap Handle" onClick={this.handleProducts}>
@@ -72,46 +97,37 @@ class App extends Component {
             <img alt="Terrapin Hopsecutioner Tap Handle" src="img/Terrapin.JPG" />
           </div>
           <div>
-            <img alt="Wicked Weed Freak of Nature Tap Handle" src="img/WickedWeed.JPG" className="wickedWeed" />
-          </div>
-          <div>
-            <img alt="Coast Brewing Tap Handle" src="img/Coast.JPG" />
-          </div>
-          <div>
-            <img alt="The Unknown Brewing Tap Handle" src="img/Unknown.JPG" />
-          </div>
-          <div>
-            <img alt="Sweet Water 420 Tap Handle" src="img/SweetWater.JPG" />
+            <img alt="Stone IPA Tap Handle" src="img/Stone.JPG" />
           </div>
           <div>
             <img alt="Legal Remedy Brewing Tap Handle" src="img/LegalRemedy.JPG" />
           </div>
           <div>
-            <img alt="Stone IPA Tap Handle" src="img/Stone.JPG" />
+            <img alt="Wicked Weed Freak of Nature Tap Handle" src="img/WickedWeed.JPG" className="wickedWeed" />
           </div>
           <div>
-            <img alt="Sierra Nevada Torpdeo Tap Handle" src="img/SierraNevada.JPG" />
-          </div>
-          <div>
-            <img alt="Scofflaw Brewing Tap Handle" src="img/Scofflaw.JPG" />
+            <img alt="The Unknown Brewing Tap Handle" src="img/Unknown.JPG" />
           </div>
           <div>
             <img alt="Triple C Brewing Tap Handle" src="img/TripleC.JPG" />
+          </div>
+          <div>
+            <img alt="Scofflaw Brewing Tap Handle" src="img/Scofflaw.JPG" />
           </div>
           <div>
             <img alt="NoDa Brewing Tap" src="img/NoDa.JPG" />
           </div>
         </div>
       </div> //App
-    );
+    )
   }
 
-  componentWillMount() {
-    var self = this;
+  fetchProducts () {
     request.get('http://localhost:5000/products')
     .then((res) => {
-      //SET STATE ON THIS
-      console.log("here response: ", res.body);
+      this.setState({
+        availableProducts: res.body
+      });
     })
     .catch((err) => {
       console.log(err);

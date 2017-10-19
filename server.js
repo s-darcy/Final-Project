@@ -37,7 +37,6 @@ router.get('/products', (req, res) => {
             res.json(result);
             console.log('Successful query');
             console.log(result);
-            // res.send('Products returned...\n');
         }
     });
 });
