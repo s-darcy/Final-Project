@@ -38,10 +38,13 @@ class App extends Component {
   handleProducts(event) {
     event.preventDefault();
     let productSelected = event.target.name;
-    this.state.products.push(productSelected);
-    this.setState({value: productSelected});
-    console.log("The product that you have selected is " + productSelected);
-    console.log(this.state.products);
+    let priceSelected = event.target.value;
+
+    let productAndPrice = "$" + priceSelected + ".00 - " + productSelected;
+    console.log(productAndPrice);
+
+    this.state.products.push(productAndPrice);
+    this.setState({value: productAndPrice});
   }
 
   render() {
@@ -71,8 +74,8 @@ class App extends Component {
               <img className="theCart" alt="shopping cart icon" src="/img/shopping-cart.PNG" />
             </h3>
             <ul>
-              {products.map((productSelected, i) => <li>{productSelected}</li>)}
-              {quantity.map((quantitySelected, i) => <li>{quantitySelected}</li>)}
+              {products.map((productAndPrice, i) => <li className="cartItems">{}{productAndPrice}</li>)}
+              {quantity.map((quantitySelected, i) => <li className="cartItems">{quantitySelected}</li>)}
             </ul>
           </div>
         </div>  

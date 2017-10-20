@@ -48,6 +48,10 @@ ul {
     transform: rotate(0deg);
 }
 
+.cartItems {
+    font-size: .7rem;
+}
+
 .products {
     display: grid;
     grid-template-columns: 5fr 5fr 5fr;
