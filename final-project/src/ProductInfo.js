@@ -22,7 +22,7 @@ class ProductInfo extends Component {
                   <option value="5">5</option>
                 </select>
                 </label>    
-            <button name={this.props.product.Name} value={this.props.product.Price} onClick={(event) => {{this.props.handleProducts}; {this.props.handlePrice};}}>Add to Cart</button> 
+            <button name={this.props.product.Name} value={this.props.product.Price} onClick={this.props.handleProducts}>Add to Cart</button> 
           </div>
         </div>
       );

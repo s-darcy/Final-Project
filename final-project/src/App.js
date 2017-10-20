@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       availableProducts : [],
       products : [],
-      price : [],
+      price: [],
       quantity : [],
       value: '',
 
@@ -19,7 +19,6 @@ class App extends Component {
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleProducts = this.handleProducts.bind(this);
-    this.handlePrice = this.handlePrice.bind(this);
 
     this.fetchProducts();
   }
@@ -41,20 +40,15 @@ class App extends Component {
     event.preventDefault();
     let productSelected = event.target.name;
     console.log(productSelected);
-
-    this.state.products.push(productSelected );
-    this.setState({value: productSelected });
-  }
-
-  handlePrice(event) {
-    event.preventDefault();
     let priceSelected = event.target.value;
 
-    let price = "$" + priceSelected + ".00";
-    console.log(price);
+    this.state.products.push(productSelected);
+    this.setState({value: productSelected });
 
-    this.state.products.push(price);
-    this.setState({value: price});
+    this.state.products.push(priceSelected);
+    this.setState({value: priceSelected });
+
+    console.log("The product you chose is " + productSelected + "$" + priceSelected);
   }
 
   render() {
@@ -71,7 +65,6 @@ class App extends Component {
           value={this.state.value}
           handleQuantity = {this.handleQuantity}
           handleProducts = {this.handleProducts}
-          handlePrice = {this.handlePrice}
         /> 
       );
     }, this); 
@@ -95,13 +88,12 @@ class App extends Component {
               <tfoot>
                 <tr>
                   <td>Total</td>
-                  <td>$</td>
+                  <td>${}</td>
                 </tr>
               </tfoot>
               <tbody> 
                 <tr>  
                   {products.map((productSelected, i) => <td className="cartItems">{productSelected}</td>)}
-                  {products.map((priceSelected, i) => <td className="cartItems">{priceSelected}</td>)}
                   {quantity.map((quantitySelected, i) => <td className="cartItems">{quantitySelected}</td>)}
                 </tr>
               </tbody> 
