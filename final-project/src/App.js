@@ -82,6 +82,9 @@ class App extends Component {
         <div className="products"> 
           {eachProduct}
         </div>
+        <footer>
+          <p>&copy; 2017<script>new Date().getFullYear()>2010&&document.write("-"+new Date().getFullYear());</script>, {this.state.title}</p>
+        </footer>  
       </div> 
     )
   }
