@@ -18,7 +18,6 @@ class App extends Component {
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleProducts = this.handleProducts.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.fetchProducts();
   }
@@ -34,11 +33,6 @@ class App extends Component {
 
     console.log("You have added " + quantitySelected);
     console.log(this.state.quantity);
-  }
-
-  handleSubmit(event) {
-    alert('Your favorite flavor is: ' + this.state.value);
-    event.preventDefault();
   }
 
   handleProducts(event) {
@@ -63,22 +57,25 @@ class App extends Component {
           product={availableProducts}
           value={this.state.value}
           handleQuantity = {this.handleQuantity}
+          handleProducts = {this.handleProducts}
         /> 
       );
     }, this); 
 
     return (
-
       <div className="App">
-        <h1>{title}</h1>
-        <pre>
-          {JSON.stringify(quantity, products)}
-        </pre>
-        <h2>Your Cart</h2> 
-        <ul>
-          {quantity.map((quantitySelected, i) => <li>{quantitySelected}</li>)}
-          {products.map((productSelected, i) => <li>{productSelected}</li>)}
-        </ul>
+        <div className="wrapper">
+          <h1>{title}</h1>
+          <div className="shoppingCart">
+            <h3>Your Cart
+              <img className="theCart" alt="shopping cart icon" src="/img/shopping-cart.PNG" />
+            </h3>
+            <ul>
+              {products.map((productSelected, i) => <li>{productSelected}</li>)}
+              {quantity.map((quantitySelected, i) => <li>{quantitySelected}</li>)}
+            </ul>
+          </div>
+        </div>  
         <div className="products"> 
           {eachProduct}
         </div>
