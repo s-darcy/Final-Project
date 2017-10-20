@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       availableProducts : [],
       products : [],
+      price : [],
       quantity : [],
       value: '',
 
@@ -18,6 +19,7 @@ class App extends Component {
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleProducts = this.handleProducts.bind(this);
+    this.handlePrice = this.handlePrice.bind(this);
 
     this.fetchProducts();
   }
@@ -38,13 +40,21 @@ class App extends Component {
   handleProducts(event) {
     event.preventDefault();
     let productSelected = event.target.name;
+    console.log(productSelected);
+
+    this.state.products.push(productSelected );
+    this.setState({value: productSelected });
+  }
+
+  handlePrice(event) {
+    event.preventDefault();
     let priceSelected = event.target.value;
 
-    let productAndPrice = "$" + priceSelected + ".00 - " + productSelected;
-    console.log(productAndPrice);
+    let price = "$" + priceSelected + ".00";
+    console.log(price);
 
-    this.state.products.push(productAndPrice);
-    this.setState({value: productAndPrice});
+    this.state.products.push(price);
+    this.setState({value: price});
   }
 
   render() {
@@ -61,6 +71,7 @@ class App extends Component {
           value={this.state.value}
           handleQuantity = {this.handleQuantity}
           handleProducts = {this.handleProducts}
+          handlePrice = {this.handlePrice}
         /> 
       );
     }, this); 
@@ -73,10 +84,28 @@ class App extends Component {
             <h3>Your Cart
               <img className="theCart" alt="shopping cart icon" src="/img/shopping-cart.PNG" />
             </h3>
-            <ul>
-              {products.map((productAndPrice, i) => <li className="cartItems">{}{productAndPrice}</li>)}
-              {quantity.map((quantitySelected, i) => <li className="cartItems">{quantitySelected}</li>)}
-            </ul>
+            <table>
+              <thead>
+                <tr>
+                  <th>Tap Handle Name</th>
+                  <th>Price</th>
+                  <th>Qty</th>
+                </tr>
+              </thead> 
+              <tfoot>
+                <tr>
+                  <td>Total</td>
+                  <td>$</td>
+                </tr>
+              </tfoot>
+              <tbody> 
+                <tr>  
+                  {products.map((productSelected, i) => <td className="cartItems">{productSelected}</td>)}
+                  {products.map((priceSelected, i) => <td className="cartItems">{priceSelected}</td>)}
+                  {quantity.map((quantitySelected, i) => <td className="cartItems">{quantitySelected}</td>)}
+                </tr>
+              </tbody> 
+            </table>   
           </div>
         </div>  
         <div className="products"> 
