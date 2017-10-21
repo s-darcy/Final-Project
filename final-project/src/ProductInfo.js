@@ -12,7 +12,7 @@ class ProductInfo extends Component {
           <div className="addingToCart">
             <p className="price">${this.props.product.Price}.00</p>
             <form onSubmit={this.props.submitQuantity}>
-              <label for="quantitySubmission">
+              <label htmlFor="quantitySubmission">
                 Qty:
                 <select value={this.props.value} onChange={this.props.handleQuantity}>
                   <option value="0">--</option>

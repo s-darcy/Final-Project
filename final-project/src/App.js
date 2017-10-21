@@ -68,10 +68,15 @@ class App extends Component {
     // this.state.quantity.push(quantityToSubmit);
     // this.setState({value: quantityToSubmit});
 
-    console.log("The product you chose is " + productSelected + "at $" + priceSelected);
+    console.log("The product you chose is " + productSelected + " at $" + priceSelected);
   }
 
   render() {
+    var table = {width: '100%'};
+    // var left= {width: '33%',padding:'20px',verticalAlign: 'top'};
+    // var center = {width: '33%',padding:'20px',verticalAlign: 'top'};
+    // var right = {width: '33%',padding:'20px',verticalAlign: 'top'};
+    
     let title = this.state.title;
     let quantity = this.state.quantity;
     let products = this.state.products;
@@ -99,29 +104,46 @@ class App extends Component {
             <h3>Your Cart
               <img className="theCart" alt="shopping cart icon" src="/img/shopping-cart.PNG" />
             </h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Tap Handle Name</th>
+            <table style={table}>
+              <table className="innerTables">
+                <thead>
+                  <tr>
+                    <th>Tap Handle Name</th>
+                  </tr>  
+              </thead>
+              <tbody>       
+                  <tr>
+                    {products.map((productSelected, i) => <td key={i} className="cartItems">{productSelected}</td>)}
+                  </tr>
+              </tbody>
+              </table>
+              <table className="innerTables">
+                <thead>
                   <th>Price</th>
+                </thead> 
+                <tbody>
+                  <tr>
+                    {price.map((priceSelected, i) => <td key={i} className="cartItems">${priceSelected}.00</td>)}     
+                  </tr>
+                </tbody>   
+              </table>
+              <table className="innerTables">
+                <thead>
                   <th>Qty</th>
-                </tr>
-              </thead> 
+                </thead> 
+                <tbody>
+                  <tr>
+                  {quantity.map((quantityToSubmit, i) => <td key={i} className="cartItems">{quantityToSubmit}</td>)}
+                  </tr>
+                </tbody>   
+              </table>             
               <tfoot>
                 <tr>
                   <td>Total</td>
                   <td>${}</td>
                 </tr>
-              </tfoot>
-              <tbody> 
-                <tr>
-                  {products.map((productSelected, i) => <td className="cartItems">{productSelected}</td>)}
-                  {price.map((priceSelected, i) => <td className="cartItems">{priceSelected}</td>)}
-                  {quantity.map((quantityToSubmit, i) => <td className="cartItems">{quantityToSubmit}</td>)}
-                  <td>X</td>
-                </tr>  
-              </tbody> 
-            </table>   
+              </tfoot>   
+            </table>      
           </div>
         </div>  
         <div className="products"> 
