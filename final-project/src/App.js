@@ -8,9 +8,11 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      //State for server 
       availableProducts : [],
       selectedProducts : [],
 
+      //React arrays for storing state for render purposes
       products : [],
       price: [],
       quantity : [],
@@ -21,8 +23,8 @@ class App extends Component {
     };
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
-    this.handleProducts = this.handleProducts.bind(this);
     this.submitQuantity = this.submitQuantity.bind(this);
+    this.handleProducts = this.handleProducts.bind(this);
 
     this.fetchProducts();
   }
@@ -131,8 +133,12 @@ class App extends Component {
                 </thead> 
                 <tbody>
                   <tr>
-                    {price.map((priceSelected, i) => <td key={i} className="cartItems">${priceSelected}.00</td>)}     
-                  </tr>
+                    {quantity < 1 ? 1 :
+                      (
+                        price.map((priceSelected, i) => <td key={i} className="cartItems">${priceSelected}.00</td>)     
+                      )
+                    }  
+                    </tr>
                 </tbody>   
               </table>
               <table className="innerTables">
