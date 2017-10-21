@@ -11,7 +11,8 @@ class ProductInfo extends Component {
           <p className="description">{this.props.product.Description}</p>
           <div className="addingToCart">
             <p className="price">${this.props.product.Price}.00</p>
-              <label>
+            <form onSubmit={this.props.submitQuantity}>
+              <label for="quantitySubmission">
                 Qty:
                 <select value={this.props.value} onChange={this.props.handleQuantity}>
                   <option value="0">--</option>
@@ -21,7 +22,9 @@ class ProductInfo extends Component {
                   <option value="4">4</option>
                   <option value="5">5</option>
                 </select>
-                </label>    
+                <button name="quantitySubmission" type="submit" value="Submit">Secure Qty</button>
+                </label> 
+            </form>       
             <button name={this.props.product.Name} value={this.props.product.Price} onClick={this.props.handleProducts}>Add to Cart</button> 
           </div>
         </div>

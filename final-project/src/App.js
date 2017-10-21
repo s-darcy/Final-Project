@@ -9,6 +9,8 @@ class App extends Component {
     super();
     this.state = {
       availableProducts : [],
+      selectedProducts : [],
+      
       products : [],
       price: [],
       quantity : [],
@@ -19,42 +21,61 @@ class App extends Component {
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleProducts = this.handleProducts.bind(this);
+    this.submitQuantity = this.submitQuantity.bind(this);
 
     this.fetchProducts();
   }
 
+  //this function will get submit the order when the customer makes the purchase
+  // selectedProducts(event) {
+  //   event.preventDefault();
+
+
+  // }
+
   handleQuantity(event) {
     event.preventDefault();
     let quantitySelected = event.target.value;
-
     this.state.quantity.push(quantitySelected);
     this.setState({
       value: quantitySelected
     });
-
-    console.log("You have added " + quantitySelected);
-    console.log(this.state.quantity);
+  } 
+  
+  submitQuantity (event) {
+    event.preventDefault();
+    let submittedQuantity = this.state.value;
+    console.log(submittedQuantity);
+    this.state.quantity.push(submittedQuantity);
+    this.setState({value: submittedQuantity });
   }
 
   handleProducts(event) {
     event.preventDefault();
-    let productSelected = event.target.name;
-    console.log(productSelected);
-    let priceSelected = event.target.value;
 
+    //Handles products name, which allows it to show in the shopping cart
+    let productSelected = event.target.name;
     this.state.products.push(productSelected);
     this.setState({value: productSelected });
-
-    this.state.products.push(priceSelected);
+    
+    //Handles the price, which allows it to show in the shopping cart
+    let priceSelected = event.target.value;
+    this.state.price.push(priceSelected);
     this.setState({value: priceSelected });
 
-    console.log("The product you chose is " + productSelected + "$" + priceSelected);
+     //Handles the quantity, which allows it to show in the shopping cart 
+    // let quantityToSubmit = Object.assign({}, this.state.quantity);
+    // this.state.quantity.push(quantityToSubmit);
+    // this.setState({value: quantityToSubmit});
+
+    console.log("The product you chose is " + productSelected + "at $" + priceSelected);
   }
 
   render() {
     let title = this.state.title;
     let quantity = this.state.quantity;
     let products = this.state.products;
+    let price = this.state.price;
 
     let eachProduct = 
       this.state.availableProducts.map((availableProducts, i) => {
@@ -65,6 +86,7 @@ class App extends Component {
           value={this.state.value}
           handleQuantity = {this.handleQuantity}
           handleProducts = {this.handleProducts}
+          submitQuantity = {this.submitQuantity}
         /> 
       );
     }, this); 
@@ -92,10 +114,12 @@ class App extends Component {
                 </tr>
               </tfoot>
               <tbody> 
-                <tr>  
+                <tr>
                   {products.map((productSelected, i) => <td className="cartItems">{productSelected}</td>)}
-                  {quantity.map((quantitySelected, i) => <td className="cartItems">{quantitySelected}</td>)}
-                </tr>
+                  {price.map((priceSelected, i) => <td className="cartItems">{priceSelected}</td>)}
+                  {quantity.map((quantityToSubmit, i) => <td className="cartItems">{quantityToSubmit}</td>)}
+                  <td>X</td>
+                </tr>  
               </tbody> 
             </table>   
           </div>
