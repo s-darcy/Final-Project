@@ -10,10 +10,11 @@ class App extends Component {
     this.state = {
       availableProducts : [],
       selectedProducts : [],
-      
+
       products : [],
       price: [],
       quantity : [],
+      quantityHandled : [],
       value: '',
 
       title: 'Craft Beer Tap Handles Store'
@@ -26,6 +27,7 @@ class App extends Component {
     this.fetchProducts();
   }
 
+ 
   //this function will get submit the order when the customer makes the purchase
   // selectedProducts(event) {
   //   event.preventDefault();
@@ -36,7 +38,8 @@ class App extends Component {
   handleQuantity(event) {
     event.preventDefault();
     let quantitySelected = event.target.value;
-    this.state.quantity.push(quantitySelected);
+    console.log(quantitySelected);
+    this.state.quantityHandled.push(quantitySelected);
     this.setState({
       value: quantitySelected
     });
@@ -47,7 +50,9 @@ class App extends Component {
     let submittedQuantity = this.state.value;
     console.log(submittedQuantity);
     this.state.quantity.push(submittedQuantity);
-    this.setState({value: submittedQuantity });
+    this.setState({
+      value: submittedQuantity 
+    });
   }
 
   handleProducts(event) {
@@ -56,12 +61,16 @@ class App extends Component {
     //Handles products name, which allows it to show in the shopping cart
     let productSelected = event.target.name;
     this.state.products.push(productSelected);
-    this.setState({value: productSelected });
+    this.setState({
+      value: productSelected 
+    });
     
     //Handles the price, which allows it to show in the shopping cart
     let priceSelected = event.target.value;
     this.state.price.push(priceSelected);
-    this.setState({value: priceSelected });
+    this.setState({
+      value: priceSelected 
+    });
 
      //Handles the quantity, which allows it to show in the shopping cart 
     // let quantityToSubmit = Object.assign({}, this.state.quantity);
@@ -73,9 +82,6 @@ class App extends Component {
 
   render() {
     var table = {width: '100%'};
-    // var left= {width: '33%',padding:'20px',verticalAlign: 'top'};
-    // var center = {width: '33%',padding:'20px',verticalAlign: 'top'};
-    // var right = {width: '33%',padding:'20px',verticalAlign: 'top'};
     
     let title = this.state.title;
     let quantity = this.state.quantity;
@@ -88,6 +94,8 @@ class App extends Component {
         <ProductInfo
           key={i}
           product={availableProducts}
+          quantity={this.quantity}
+          quantityHandled={this.quantityHandled}
           value={this.state.value}
           handleQuantity = {this.handleQuantity}
           handleProducts = {this.handleProducts}
@@ -133,7 +141,7 @@ class App extends Component {
                 </thead> 
                 <tbody>
                   <tr>
-                  {quantity.map((quantityToSubmit, i) => <td key={i} className="cartItems">{quantityToSubmit}</td>)}
+                    {quantity.map((quantityToSubmit, i) => <td key={i} className="cartItems">{quantityToSubmit}</td>)}
                   </tr>
                 </tbody>   
               </table>             
@@ -144,6 +152,7 @@ class App extends Component {
                 </tr>
               </tfoot>   
             </table>      
+
           </div>
         </div>  
         <div className="products"> 

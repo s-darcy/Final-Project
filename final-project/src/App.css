@@ -27,10 +27,6 @@ h3 {
     margin: auto;
 }
 
-.innerTables {
-    display: inline-block;
-}
-
 th {
     text-align: center;
     font-size: .8rem;
@@ -103,6 +99,10 @@ select, label {
 .individualContainer {
     margin: 0% 12% 10%;
     position: relative;
+}
+
+.innerTables {
+    display: inline-block;
 }
 
 .description { 

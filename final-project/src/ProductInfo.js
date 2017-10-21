@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 class ProductInfo extends Component {
 
     render(){
+      let isQuantitySelected = this.props.quantityHandled;
+      console.log(isQuantitySelected);
 
       return (
         <div className="individualContainer" key={this.props.product.ProductID}>
@@ -11,8 +13,6 @@ class ProductInfo extends Component {
           <p className="description">{this.props.product.Description}</p>
           <div className="addingToCart">
             <p className="price">${this.props.product.Price}.00</p>
-            <form onSubmit={this.props.submitQuantity}>
-              <label htmlFor="quantitySubmission">
                 Qty:
                 <select value={this.props.value} onChange={this.props.handleQuantity}>
                   <option value="0">--</option>
@@ -22,14 +22,26 @@ class ProductInfo extends Component {
                   <option value="4">4</option>
                   <option value="5">5</option>
                 </select>
-                <button name="quantitySubmission" type="submit" value="Submit">Secure Qty</button>
-                </label> 
-            </form>       
-            <button name={this.props.product.Name} value={this.props.product.Price} onClick={this.props.handleProducts}>Add to Cart</button> 
+              <div>
+                 
+                  <button
+                    name={this.props.product.Name}
+                    value={this.props.product.Price} 
+                    onClick={(event) => {
+                      isQuantitySelected !== (0 || null) ?  
+                      (  
+                          this.props.handleProducts(event),
+                          this.props.submitQuantity(event)
+                      )  
+                      :  
+                        alert("Please select a quantity before Adding to Cart") 
+                      }}>Add to Cart</button>    
+
+              </div>  
+           
           </div>
         </div>
       );
     }     
 }  
-
 export default ProductInfo;
