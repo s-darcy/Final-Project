@@ -32,11 +32,15 @@ th {
     font-size: .8rem;
 }
 
+thead {
+    display: flex;
+}
+
 ul {
     list-style: none;
 }
 
- td{
+ td {
     display: inline-block;
 }
 
@@ -60,7 +64,7 @@ select, label {
 .shoppingCart {
     float: right;
     display: block;
-    min-width: 250px;
+    min-width: 430px;
     border-style: solid;
     border-width: 1px;
     border-radius: 3%;
@@ -72,6 +76,21 @@ select, label {
     margin: auto;
     width: 50%;
     margin-bottom: 3%;
+}
+
+.headerName {
+    left: 3%;
+    position: relative; 
+}
+
+.headerPrice {
+    left: 20%;
+    position: relative; 
+}
+
+.headerQty {
+    left: 25%;
+    position: relative; 
 }
 
 .theCart {
@@ -150,6 +169,7 @@ select, label {
     }
     .shoppingCart {
         float: none;
+        min-width: 430px;
         max-width: 40%
     }    
     footer {
@@ -158,7 +178,7 @@ select, label {
      }
 }
 
-@media screen and (min-width: 800px) and (max-width: 1350px){
+@media screen and (min-width: 800px) and (max-width: 1480px){
     h1 {
         max-width: 97%;
         text-align: center;
@@ -176,7 +196,8 @@ select, label {
     }
     .shoppingCart {
         float: none;
-        max-width: 40%;
+        max-width: 30%;
+        min-width: 430px;
         margin: auto;
     }
     footer {
@@ -192,7 +213,7 @@ select, label {
     }
     .shoppingCart {
         max-width: 40%;
-        min-width: 350px;
+        min-width: 430px;
         float: none;
         margin: auto;
     }

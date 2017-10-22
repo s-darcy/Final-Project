@@ -115,7 +115,7 @@ class App extends Component {
               <img className="theCart" alt="shopping cart icon" src="/img/shopping-cart.PNG" />
             </h3>
             <table style={table}>
-              <table className="innerTables">
+              <table className="innerTables headerName">
                 <thead>
                   <tr>
                     <th>Tap Handle Name</th>
@@ -127,28 +127,32 @@ class App extends Component {
                   </tr>
               </tbody>
               </table>
-              <table className="innerTables">
+              <table className="innerTables headerPrice">
                 <thead>
-                  <th>Price</th>
+                  <tr>
+                    <th>Price</th>
+                  </tr>
                 </thead> 
                 <tbody>
                   <tr>
-                    {quantity < 1 ? 1 :
-                      (
-                        price.map((priceSelected, i) => <td key={i} className="cartItems">${priceSelected}.00</td>)     
-                      )
-                    }  
-                    </tr>
+                    {price.map((priceSelected, i) => <td key={i} className="cartItems">${priceSelected}.00</td>)}     
+                  </tr>
                 </tbody>   
               </table>
-              <table className="innerTables">
+              <table className="innerTables headerQty">
                 <thead>
-                  <th>Qty</th>
+                  <tr>
+                    <th>Qty</th>
+                  </tr>
                 </thead> 
                 <tbody>
                   <tr>
-                    {quantity.map((quantityToSubmit, i) => <td key={i} className="cartItems">{quantityToSubmit}</td>)}
-                  </tr>
+                  {quantity < 1 ? 1 :
+                      (
+                        quantity.map((quantityToSubmit, i) => <td key={i} className="cartItems">{quantityToSubmit}</td>)
+                      )
+                    }   
+                    </tr>
                 </tbody>   
               </table>             
               <tfoot>
