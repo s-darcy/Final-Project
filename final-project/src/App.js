@@ -3,6 +3,7 @@ import './App.css';
 import request from 'superagent';
 import ProductInfo from './ProductInfo';
 import ShoppingCart from './ShoppingCart';
+import Total from './Total';
 
 class App extends Component {
 
@@ -33,7 +34,8 @@ class App extends Component {
     this.fetchProducts();
     // this.submitOrderToServer();
   }
-   
+  
+  //Stores the productID only for the Order Submitted
   submitOrderID (event) {
     event.preventDefault();
     let productSubmitted = event.target.value;
@@ -45,12 +47,15 @@ class App extends Component {
     });
   }
 
+  //(NOT WORKING) Store the entire product details for the order submitted
+  //by comparing the selected ProductID against all the product's ProductID
   submitOrder (product, event) {
     event.preventDefault();
 
     let originalProducts = this.state.availableProducts.slice();
-    let findProduct = originalProducts.filter((original) => {
-      if (original.productID === product.productID){
+    console.log(originalProducts);
+    let findProduct = originalProducts.find((original) => {
+      if (original.ProductID == product){
         return original;
       };
     });
@@ -61,6 +66,7 @@ class App extends Component {
     });
   }
 
+  //Helps the quantity select drop down
   handleQuantity(event) {
     event.preventDefault();
     let quantitySelected = event.target.value;
@@ -71,6 +77,7 @@ class App extends Component {
     });
   } 
   
+  //Quantity that renders in the shopping cart
   submitQuantity (event) {
     event.preventDefault();
     let submittedQuantity = this.state.value;
@@ -108,6 +115,19 @@ class App extends Component {
     let products = this.state.products;
     let price = this.state.price;
 
+    //(NOT WORKING) Rendering the shopping cart total
+    let cost = this.state.price.map((value, index) => {
+      let priceQuantity = quantity[index];
+      return(
+        <Total
+          key={index}
+          price={this.value}
+          priceQuantity={this.priceQuantity}
+        />
+      );
+    }, this);
+
+    //Main Component that render to page on refresh
     let eachProduct = 
       this.state.availableProducts.map((availableProducts, i) => {
       return (
@@ -167,12 +187,8 @@ class App extends Component {
                 </thead> 
                 <tbody>
                   <tr>
-                  {quantity < 1 ? 1 :
-                      (
-                        quantity.map((quantityToSubmit, i) => <td key={i} className="cartItems">{quantityToSubmit}</td>)
-                      )
-                    }   
-                    </tr>
+                    {quantity.map((quantityToSubmit, i) => <td key={i} className="cartItems">{quantityToSubmit}</td>)}   
+                  </tr>
                 </tbody>   
               </table>             
               <tfoot>
@@ -188,7 +204,7 @@ class App extends Component {
               </button>  
                 <tr className="total">
                   <td>Total</td>
-                  <td>${}</td>
+                  <td>${cost}</td>
                 </tr>
               </tfoot>   
             </table>      
@@ -215,6 +231,7 @@ class App extends Component {
       console.log(err);
     });
   };
+
 
 
   // submitOrderToServer () {

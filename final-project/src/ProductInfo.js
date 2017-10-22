@@ -28,14 +28,15 @@ class ProductInfo extends Component {
                 id={this.props.product.Price}
                 value={this.props.product.ProductID} 
                 onClick={(event) => {
-                  // isQuantitySelected !== (0 || null) ?  
-                  // (  
+                  isQuantitySelected !== (0 || null) ?  
+                  (  
                       this.props.handleProducts(event),
                       this.props.submitQuantity(event),
                       this.props.submitOrderID(event),  //this.props.product.ProductID,
-                      this.props.submitOrder(this.props.product, event)
-                      // )  
-                  // :  
+                      this.props.submitOrder(this.props.product.ProductID, event)
+                      )  
+                  : 
+                      alert("Please select a quantity before you Add to Cart");
                   }}>Add to Cart</button>    
               </div>  
             </div>
