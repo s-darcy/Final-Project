@@ -188,7 +188,7 @@ select, label {
     }
     button {
         width: 50%;
-        margin: auto;
+        margin: 3% auto 0%;
     }  
     .products {
         display: grid;

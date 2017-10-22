@@ -25,17 +25,22 @@ class App extends Component {
     this.handleQuantity = this.handleQuantity.bind(this);
     this.submitQuantity = this.submitQuantity.bind(this);
     this.handleProducts = this.handleProducts.bind(this);
+    this.submitOrder = this.submitOrder.bind(this);
 
     this.fetchProducts();
+    // this.submitOrder();
   }
 
  
-  //this function will get submit the order when the customer makes the purchase
-  // selectedProducts(event) {
-  //   event.preventDefault();
-
-
-  // }
+  submitOrder (event) {
+    event.preventDefault();
+    let productSubmitted = event.target.value;
+    console.log(productSubmitted);
+    this.state.selectedProducts.push(productSubmitted);
+    this.setState({
+      value: productSubmitted
+    });
+  } 
 
   handleQuantity(event) {
     event.preventDefault();
@@ -73,12 +78,6 @@ class App extends Component {
     this.setState({
       value: priceSelected 
     });
-
-     //Handles the quantity, which allows it to show in the shopping cart 
-    // let quantityToSubmit = Object.assign({}, this.state.quantity);
-    // this.state.quantity.push(quantityToSubmit);
-    // this.setState({value: quantityToSubmit});
-
     console.log("The product you chose is " + productSelected + " at $" + priceSelected);
   }
 
@@ -102,6 +101,7 @@ class App extends Component {
           handleQuantity = {this.handleQuantity}
           handleProducts = {this.handleProducts}
           submitQuantity = {this.submitQuantity}
+          submitOrder = {this.submitOrder}
         /> 
       );
     }, this); 
@@ -186,6 +186,21 @@ class App extends Component {
       console.log(err);
     });
   };
-}
+
+
+  // submitOrder () {
+  //   request.get('http://localhost:5000/addpost')
+  //   .then(res) => {
+
+  //   }
+  //   connection.query(sql, [values], (err, result) => {
+  //     if(err) throw err;
+  //     console.log(result);
+  //   });
+  // };
+
+
+
+} //Closes the app
 
 export default App;
