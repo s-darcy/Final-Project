@@ -165,9 +165,19 @@ class App extends Component {
 
     return (
       <div className="App">
+        <h1>{title}</h1>
         <div className="wrapper">
- 
-          <h1>{title}</h1>
+          <section className="searchOrder">
+            <div>
+              <p>Would you like to edit or delete an order?</p>
+              <input type="text"
+                placeholder="Order ID?"
+                value =""
+                onChange={this.props.handleTextChange}
+              />
+              <img className="magnifyingGlass" src="img/magnifying_glass.PNG" alt="magnifying glass icon" />
+            </div>
+          </section>    
           <div className="shoppingCart">
             <h3>Your Cart
               <img className="theCart" alt="shopping cart icon" src="/img/shopping-cart.PNG" />

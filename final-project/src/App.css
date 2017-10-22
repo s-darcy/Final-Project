@@ -61,6 +61,29 @@ select, label {
     width: 30%;
  }
 
+ .searchOrder {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #BBBABA;
+    display: grid;
+    grid-template-columns: 5fr;
+    width: 39%;
+    min-width: 430px;
+    margin: 0% auto 2%;
+    text-align: center;
+ }
+
+ .searchOrder input {
+     margin-bottom: 3%;
+ }
+
+.magnifyingGlass {
+    width: 25px;
+    height: 22px;
+    margin-left: 2%;
+    display: inline-block;
+}
+
 .shoppingCart {
     float: right;
     display: block;

@@ -6,11 +6,7 @@ class SearchOrder extends Component {
 
       return (
         <div className="previousOrder">
-            <input type="text"
-              placeholder="Order ID?"
-              value =""
-              onChange={this.props.handleTextChange}
-            />
+            
           </div> 
       );
     }     
