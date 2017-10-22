@@ -130,6 +130,7 @@ select, label {
     font-size: .7rem;
     text-align: center;
     width: 20%;
+    height: 27px;
     margin: 2%;
     float: right;
 }

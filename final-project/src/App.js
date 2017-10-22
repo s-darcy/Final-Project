@@ -3,7 +3,8 @@ import './App.css';
 import request from 'superagent';
 import ProductInfo from './ProductInfo';
 import ShoppingCart from './ShoppingCart';
-import Total from './Total';
+import Total from './Total'; 
+import SearchOrder from './SearchOrder';
 
 class App extends Component {
 
@@ -30,6 +31,7 @@ class App extends Component {
     this.handleProducts = this.handleProducts.bind(this);
     this.submitOrderID = this.submitOrderID.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
+    this.emptyCart = this.emptyCart.bind(this);
 
     this.fetchProducts();
     // this.submitOrderToServer();
@@ -107,6 +109,21 @@ class App extends Component {
     console.log("The product you chose is " + productSelected + " at $" + priceSelected);
   }
 
+  emptyCart(event) {
+    let orderProducts = this.state.orderProducts;
+    
+    console.log(orderProducts);
+    let empty = orderProducts.length = 0;
+
+    this.setState({
+      orderProducts : empty
+    });
+  }
+
+  refreshPage() {
+    window.location.reload();
+} 
+
   render() {
     var table = {width: '100%'};
     
@@ -149,6 +166,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="wrapper">
+ 
           <h1>{title}</h1>
           <div className="shoppingCart">
             <h3>Your Cart
@@ -197,11 +215,7 @@ class App extends Component {
                   <td>Place Order</td>
                 </tr>
               </button>   
-              <button type="reset" className="emptyCart">
-                <tr>    
-                  <td>Empty Cart</td>
-                </tr>
-              </button>  
+              <input type="button" value="Clear Cart" onClick={this.refreshPage} className="emptyCart" />
                 <tr className="total">
                   <td>Total</td>
                   <td>${cost}</td>
