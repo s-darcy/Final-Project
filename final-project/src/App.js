@@ -11,36 +11,54 @@ class App extends Component {
       //State for server 
       availableProducts : [],
       selectedProducts : [],
+      orderProducts : [],
 
-      //React arrays for storing state for render purposes
+      //React arrays for storing state for render purposes only
       products : [],
       price: [],
       quantity : [],
       quantityHandled : [],
       value: '',
 
-      title: 'Craft Beer Tap Handles Store'
+      title: 'Craft Beer Tap Handle Store'
     };
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.submitQuantity = this.submitQuantity.bind(this);
     this.handleProducts = this.handleProducts.bind(this);
+    this.submitOrderID = this.submitOrderID.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
 
     this.fetchProducts();
-    // this.submitOrder();
+    // this.submitOrderToServer();
   }
-
- 
-  submitOrder (event) {
+   
+  submitOrderID (event) {
     event.preventDefault();
     let productSubmitted = event.target.value;
     console.log(productSubmitted);
+
     this.state.selectedProducts.push(productSubmitted);
     this.setState({
       value: productSubmitted
     });
-  } 
+  }
+
+  submitOrder (product, event) {
+    event.preventDefault();
+
+    let originalProducts = this.state.availableProducts.slice();
+    let findProduct = originalProducts.filter((original) => {
+      if (original.productID === product.productID){
+        return original;
+      };
+    });
+    console.log(findProduct);
+    this.state.orderProducts.push(findProduct);
+    this.setState({
+      value: findProduct
+    });
+  }
 
   handleQuantity(event) {
     event.preventDefault();
@@ -101,6 +119,7 @@ class App extends Component {
           handleQuantity = {this.handleQuantity}
           handleProducts = {this.handleProducts}
           submitQuantity = {this.submitQuantity}
+          submitOrderID = {this.submitOrderID}
           submitOrder = {this.submitOrder}
         /> 
       );
@@ -156,13 +175,22 @@ class App extends Component {
                 </tbody>   
               </table>             
               <tfoot>
-                <tr>
+              <button type="submit" className="submitCart">
+                <tr>    
+                  <td>Place Order</td>
+                </tr>
+              </button>   
+              <button type="reset" className="emptyCart">
+                <tr>    
+                  <td>Empty Cart</td>
+                </tr>
+              </button>  
+                <tr className="total">
                   <td>Total</td>
                   <td>${}</td>
                 </tr>
               </tfoot>   
             </table>      
-
           </div>
         </div>  
         <div className="products"> 
@@ -188,7 +216,7 @@ class App extends Component {
   };
 
 
-  // submitOrder () {
+  // submitOrderToServer () {
   //   request.get('http://localhost:5000/addpost')
   //   .then(res) => {
 

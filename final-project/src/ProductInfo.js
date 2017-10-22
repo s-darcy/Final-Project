@@ -32,8 +32,9 @@ class ProductInfo extends Component {
                       // (  
                           this.props.handleProducts(event),
                           this.props.submitQuantity(event),
-                          this.props.submitOrder(event)
-                      // )  
+                          this.props.submitOrderID(event),  //this.props.product.ProductID,
+                          this.props.submitOrder(this.props.product, event)
+                          // )  
                       // :  
                       }}>Add to Cart</button>    
 

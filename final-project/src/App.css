@@ -67,7 +67,6 @@ select, label {
     min-width: 430px;
     border-style: solid;
     border-width: 1px;
-    border-radius: 3%;
     border-color: #BBBABA;
     margin-right: 2%;
 }
@@ -122,6 +121,34 @@ select, label {
 
 .innerTables {
     display: inline-block;
+}
+
+.emptyCart {
+    background-color: red;
+    color: white;
+    font-size: .7rem;
+    text-align: center;
+    width: 20%;
+    margin: 2%;
+    float: right;
+}
+
+.submitCart {
+    background-color: #209205;
+    color: white;
+    font-size: .7rem;
+    text-align: center;
+    width: 20%;
+    margin: 2%;
+    float: left;
+}
+
+.total {
+    background-color: navy;
+    color: white;
+    text-align: center;
+    width: 100%;
+    line-height: 2.3;
 }
 
 .description { 
