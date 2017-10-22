@@ -192,6 +192,16 @@ select, label {
     margin: 3% 0% 1%;
 }
 
+.customerID {
+    color:  #209205;
+    font-size: 1.2rem;
+    font-family: serif;
+}
+
+.thankYou {
+    text-align: center;
+}
+
 .beerTapPics {
     width: 100%;
     height: auto;

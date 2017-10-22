@@ -6,19 +6,23 @@ import ProductInfo from './ProductInfo';
 import ShoppingCart from './ShoppingCart';
 import Total from './Total'; 
 import SearchOrder from './SearchOrder';
+import ThankYou from './ThankYou';
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
+
       //State for server 
       availableProducts : [],
+      orderPlaced : [],
       selectedProducts : [],
       orderProducts : [],
-      customerID : [],
-
+    
       //React arrays for storing state for render purposes only
+      customerID : [],
+      thankYou: !this.state.show,
       products : [],
       price: [],
       quantity : [],
@@ -27,6 +31,7 @@ class App extends Component {
 
       title: 'Craft Beer Tap Handle Store'
     };
+
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.submitQuantity = this.submitQuantity.bind(this);
@@ -34,18 +39,35 @@ class App extends Component {
     this.submitOrderID = this.submitOrderID.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
     this.emptyCart = this.emptyCart.bind(this);
+    this.submitOrdertoDB = this.submitOrdertoDB.bind(this);
 
     this.fetchProducts();
     // this.submitOrderToServer();
   }
 
-  // submitOrdertoDB () {
-  //   orderProducts
+  //This function stores the whole order details (CustomerID, Quantity, Prices, ProductID)
+  submitOrdertoDB (event) {
+    event.preventDefault();
 
+    //CustomerID
+    let customerID = this.state.customerID;
 
-  // }
+    //Prices
+    let prices = this.state.price.slice();
 
-   //Creates Custom Customer ID
+    //ProductIDs  
+    let productID = this.state.selectedProducts.slice();
+
+    //Quantity
+    let quantity = this.state.quantity.slice();
+
+    this.state.orderPlaced.push([customerID, quantity, prices, productID]);
+    this.setState({
+      orderPlaced: [customerID, quantity, prices, productID]
+    });
+  }
+
+   //Creates Custom Customer ID on page load
    componentWillMount() {
     let createID = _.uniqueId(Math.floor(Math.random() * 10000000 + 1));
     
@@ -55,8 +77,6 @@ class App extends Component {
     value : createID
     });
   }
-
-
 
   //Stores the productID only for the Order Submitted
   submitOrderID (event) {
@@ -111,6 +131,7 @@ class App extends Component {
     });
   }
 
+  //Renders the product and the price in the shopping cart
   handleProducts(event) {
     event.preventDefault();
 
@@ -130,6 +151,7 @@ class App extends Component {
     console.log("The product you chose is " + productSelected + " at $" + priceSelected);
   }
 
+  //Empties the shopping cart by setting all the array lengths back to 0
   emptyCart(event) {
     let orderProducts = this.state.orderProducts;
     
@@ -141,10 +163,12 @@ class App extends Component {
     });
   }
 
+  //Clears pending shopping cart with a window refresh
   refreshPage() {
     window.location.reload();
 } 
 
+//This is the <App /> Render
   render() {
     var table = {width: '100%'};
     
@@ -152,6 +176,7 @@ class App extends Component {
     let quantity = this.state.quantity;
     let products = this.state.products;
     let price = this.state.price;
+    let customerID = this.state.customerID;
 
     //(NOT WORKING) Rendering the shopping cart total
     let cost = this.state.price.map((value, index) => {
@@ -164,6 +189,12 @@ class App extends Component {
         />
       );
     }, this);
+
+    //Injects the Thank You Component
+    let thankYouMessage =
+        <ThankYou
+          customerID={customerID}
+      />  
 
     //Main Component that render to page on refresh
     let eachProduct = 
@@ -241,29 +272,38 @@ class App extends Component {
                 </tbody>   
               </table>             
               <tfoot>
-              <button type="submit" className="submitCart">
+              <button type="submit" className="submitCart" onClick={this.submitOrdertoDB}>
                 <tr>    
                   <td>Place Order</td>
                 </tr>
               </button>   
-              <input type="button" value="Clear Cart" onClick={this.refreshPage} className="emptyCart" />
+              <input 
+                type="button" 
+                value="Clear Cart"
+                className="emptyCart"  
+                onClick={(event) => 
+                  this.refreshPage()
+              }/>
                 <tr className="total">
                   <td>Total</td>
                   <td>${cost}</td>
                 </tr>
               </tfoot>   
-            </table>      
+            </table>
+            <div>
+              {thankYouMessage}
+            </div>
           </div>
-        </div>  
-        <div className="products"> 
-          {eachProduct}
+          <div className="products"> 
+            {eachProduct}
+          </div>
+          <footer>
+            <p>&copy; 2017<script>new Date().getFullYear()>2010&&document.write("-"+new Date().getFullYear());</script>, {this.state.title}</p>
+          </footer>  
         </div>
-        <footer>
-          <p>&copy; 2017<script>new Date().getFullYear()>2010&&document.write("-"+new Date().getFullYear());</script>, {this.state.title}</p>
-        </footer>  
-      </div> 
-    )
-  }
+      </div>   
+      )
+    }
 
   //Pulls in all of our products on initial render
   fetchProducts () {
@@ -277,33 +317,6 @@ class App extends Component {
       console.log(err);
     });
   };
-
-  
-
-  //Making an API call for localhost:5000/addpost
-  // postOrder() {
-  //   request.get('http://localhost:5000/addpost')
-  //     .then((res) => {
-
-  //     })
-
-
-  
-  
-
-
-  // submitOrderToServer () {
-  //   request.get('http://localhost:5000/addpost')
-  //   .then(res) => {
-
-  //   }
-  //   connection.query(sql, [values], (err, result) => {
-  //     if(err) throw err;
-  //     console.log(result);
-  //   });
-  // };
-
-
 
 } //Closes the app
 

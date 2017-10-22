@@ -28,6 +28,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "mysql": "github:mysqljs/mysql",
+    "react-toggle-display": "^2.2.0",
     "superagent": "^3.6.3"
   },
   "devDependencies": {
