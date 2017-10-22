@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import request from 'superagent';
 import ProductInfo from './ProductInfo';
+import ShoppingCart from './ShoppingCart';
 
 class App extends Component {
 
@@ -91,7 +92,7 @@ class App extends Component {
     });
     
     //Handles the price, which allows it to show in the shopping cart
-    let priceSelected = event.target.value;
+    let priceSelected = event.target.id;
     this.state.price.push(priceSelected);
     this.setState({
       value: priceSelected 
