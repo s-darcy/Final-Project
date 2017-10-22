@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import request from 'superagent';
+import _ from 'lodash';
 import ProductInfo from './ProductInfo';
 import ShoppingCart from './ShoppingCart';
 import Total from './Total'; 
@@ -15,6 +16,7 @@ class App extends Component {
       availableProducts : [],
       selectedProducts : [],
       orderProducts : [],
+      customerID : [],
 
       //React arrays for storing state for render purposes only
       products : [],
@@ -36,7 +38,26 @@ class App extends Component {
     this.fetchProducts();
     // this.submitOrderToServer();
   }
-  
+
+  // submitOrdertoDB () {
+  //   orderProducts
+
+
+  // }
+
+   //Creates Custom Customer ID
+   componentWillMount() {
+    let createID = _.uniqueId(Math.floor(Math.random() * 10000000 + 1));
+    
+    console.log(createID);
+    this.state.customerID.push(createID); 
+    this.setState({ 
+    value : createID
+    });
+  }
+
+
+
   //Stores the productID only for the Order Submitted
   submitOrderID (event) {
     event.preventDefault();
@@ -244,6 +265,7 @@ class App extends Component {
     )
   }
 
+  //Pulls in all of our products on initial render
   fetchProducts () {
     request.get('http://localhost:5000/products')
     .then((res) => {
@@ -256,6 +278,18 @@ class App extends Component {
     });
   };
 
+  
+
+  //Making an API call for localhost:5000/addpost
+  // postOrder() {
+  //   request.get('http://localhost:5000/addpost')
+  //     .then((res) => {
+
+  //     })
+
+
+  
+  
 
 
   // submitOrderToServer () {
