@@ -40,7 +40,7 @@ router.get('/products', (req, res) => {
     });
 });
 
-//Select single order (WORKS)
+//Finds a single order (WORKS)
 router.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     
@@ -49,6 +49,7 @@ router.get('/getpost/:id', (req, res) => {
         res.json(result);
         console.log(result);
         res.send(res.body);
+        res.end();
     });
 });
 

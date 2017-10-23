@@ -6,13 +6,13 @@ class Total extends Component {
 
         //(NOT WORKING)Calculates the total shopping cart for price and quantity
         let summingItUp = (a,b) => {
-            return this.props.price * this.props.priceQuantity;
+            return this.props.orderProducts.Price * this.props.quantityToOrder;
         }
         console.log(summingItUp); 
 
       return (
         <div>
-            {summingItUp}
+            
         </div>
       );
     }     

@@ -273,13 +273,10 @@ class App extends Component {
     let customerID = this.state.customerID;
 
     //(NOT WORKING) Rendering the shopping cart total
-    let cost = this.state.price.map((value, index) => {
-      let priceQuantity = quantity[index];
+    let cost = this.state.orderPlaced.map((orderPlaced, i) => {
       return(
         <Total
-          key={index}
-          price={this.value}
-          priceQuantity={this.priceQuantity}
+          oorderPlaced={orderPlaced}
         />
       );
     }, this);
@@ -390,7 +387,8 @@ class App extends Component {
               <tfoot>
               <button type="submit" className="submitCart" onClick={(event) => {
                 this.handleThankYou(event),
-                this.submitOrdertoDB(event)
+                this.submitOrdertoDB(event),
+                this.storeOrderDetails(event)
               }}>
                 <tr>    
                   <td>Place Order</td>
