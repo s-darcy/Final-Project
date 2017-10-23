@@ -40,12 +40,13 @@ router.get('/products', (req, res) => {
     });
 });
 
-//Select single order
+//Select single order (WORKS)
 router.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
+    
     connection.query(sql, (err, result) => {
         if(err) throw err;
-        res.send(JSON.stringify(result));
+        res.json(result);
         console.log(result);
         res.send(res.body);
     });

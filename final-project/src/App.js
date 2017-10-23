@@ -28,9 +28,10 @@ class App extends Component {
       price: [],
       quantity : [],
       quantityHandled : [],
+      idText : [],
       value: '',
       searchIDText: '',
-      IDText : [],
+
 
       title: 'Craft Beer Tap Handle Store'
     };
@@ -228,11 +229,11 @@ class App extends Component {
   handleSearchIDTextSubmit(event){
     event.preventDefault();
     let searchID = event.target.searchIDText;
-    this.state.IDText.push(searchID);
+    // this.state.idText.push(searchID);
     
-    this.setState({
-      "IDText" : searchID
-    });
+    // this.setState({
+    //   "idText" : searchID
+    // });
 
     //Clears the Input Field
     var IDInput = document.getElementById("IDInput");
@@ -245,7 +246,8 @@ class App extends Component {
     let searchedID = this.state.searchIDText;
     console.log(searchedID);
 
-    superagent.get('http://localhost:5000/getpost/:id')
+    superagent.get(`http://localhost:5000/getpost/${searchedID}`)
+    .query('id=')
     .send(searchedID)
     .then(
 
