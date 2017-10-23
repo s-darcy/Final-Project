@@ -4,7 +4,6 @@ const async = require('async');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const mysql = require('mysql');
-// let application = require('/final-project/src/app.js');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -25,7 +24,7 @@ connection.connect((err) => {
 const app = express();
 const router = express.Router();
 
-// app.use(express.bodyParser());
+app.use(bodyParser.json());
 
 //Pulls the description details from TapHandles table
 router.get('/products', (req, res) => {
@@ -53,17 +52,38 @@ router.get('/getpost/:id', (req, res) => {
 });
 
 //Insert an order
-router.get('/addpost', (req, res) => {
-    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-    let sql = "INSERT INTO `Order` (CustomerID, Quantity, Date, TotalPrice) VALUES ?";
-    var values = [
-        [2, 3, mysqlTimestamp, 90.00],
-        [3, 2, mysqlTimestamp, 50.00]
-    ];
-    connection.query(sql, [values], (err, result) => {
+router.post('/addpost', (req, res) => {
+    let insertOrderQuery = `INSERT INTO
+    BreweryTapHandles.Order (DateAdded)
+    VALUES (NOW())`;
+
+    connection.query(insertOrderQuery, (err, result) => {
         if(err) throw err;
-        console.log(result);
-        res.send('Post 1 added');
+
+        let selectedProducts = req.body.selectedProducts;
+
+        let orderID = result.insertId;
+
+        let insertProductsQuery = `INSERT INTO
+            BreweryTapHandles.SelectedProducts (OrderID, ProductID, Quantity)
+        VALUES `;
+
+        for (let key in selectedProducts) {
+            if (key != 0) {
+                insertProductsQuery += `, `;
+            }
+
+            insertProductsQuery += `(${orderID}, ${selectedProducts[key].productId}, ${selectedProducts[key].quantity})`;
+        }
+
+        connection.query(insertProductsQuery, (err, result) => {
+            if(err) throw err;
+            // console.log(result);
+            res.json({
+                message: 'Post 1 added',
+                orderID
+            });
+        });
     });
 });
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import request from 'superagent';
+import superagent from 'superagent';
 import _ from 'lodash';
 import ProductInfo from './ProductInfo';
 import ShoppingCart from './ShoppingCart';
@@ -22,7 +22,7 @@ class App extends Component {
     
       //React arrays for storing state for render purposes only
       customerID : [],
-      thankYou: !this.state.show,
+      thankYou: false,
       products : [],
       price: [],
       quantity : [],
@@ -40,32 +40,33 @@ class App extends Component {
     this.submitOrder = this.submitOrder.bind(this);
     this.emptyCart = this.emptyCart.bind(this);
     this.submitOrdertoDB = this.submitOrdertoDB.bind(this);
+    this.handleThankYou = this.handleThankYou.bind(this);
 
     this.fetchProducts();
     // this.submitOrderToServer();
   }
 
   //This function stores the whole order details (CustomerID, Quantity, Prices, ProductID)
-  submitOrdertoDB (event) {
-    event.preventDefault();
+  // submitOrdertoDB (event) {
+  //   event.preventDefault();
 
-    //CustomerID
-    let customerID = this.state.customerID;
+  //   //CustomerID
+  //   let customerID = this.state.customerID;
 
-    //Prices
-    let prices = this.state.price.slice();
+  //   //Prices
+  //   let prices = this.state.price.slice();
 
-    //ProductIDs  
-    let productID = this.state.selectedProducts.slice();
+  //   //ProductIDs  
+  //   let productID = this.state.selectedProducts.slice();
 
-    //Quantity
-    let quantity = this.state.quantity.slice();
+  //   //Quantity
+  //   let quantity = this.state.quantity.slice();
 
-    this.state.orderPlaced.push([customerID, quantity, prices, productID]);
-    this.setState({
-      orderPlaced: [customerID, quantity, prices, productID]
-    });
-  }
+  //   this.state.orderPlaced.push([customerID, quantity, prices, productID]);
+  //   this.setState({
+  //     orderPlaced: [customerID, quantity, prices, productID]
+  //   });
+  // }
 
    //Creates Custom Customer ID on page load
    componentWillMount() {
@@ -107,6 +108,32 @@ class App extends Component {
     this.setState({
       value: findProduct
     });
+  }
+
+  submitOrdertoDB (product, event) {
+    // event.preventDefault();
+
+    let fakeObject = {
+      "selectedProducts": [
+          {
+              "productId": 5,
+              "quantity": 2
+          },
+          {
+              "productId": 6,
+              "quantity": 1
+          }
+      ]
+  };
+
+    superagent.post('http://localhost:5000/addPost')
+    .send(fakeObject)
+    .then(
+      // Do whatever with the response
+      (res) => {
+        console.log(res.status, res.body.orderID);
+      }
+    );
   }
 
   //Helps the quantity select drop down
@@ -168,6 +195,13 @@ class App extends Component {
     window.location.reload();
 } 
 
+//Thank You Message State
+handleThankYou() {
+  this.setState({
+    thankYou: !this.state.thankYou
+  });
+}
+
 //This is the <App /> Render
   render() {
     var table = {width: '100%'};
@@ -221,7 +255,7 @@ class App extends Component {
         <div className="wrapper">
           <section className="searchOrder">
             <div>
-              <p>Would you like to edit or delete an order?</p>
+              <p>Would you like to edit or delete a previous order?</p>
               <input type="text"
                 placeholder="Order ID?"
                 value =""
@@ -272,7 +306,10 @@ class App extends Component {
                 </tbody>   
               </table>             
               <tfoot>
-              <button type="submit" className="submitCart" onClick={this.submitOrdertoDB}>
+              <button type="submit" className="submitCart" onClick={(event) => {
+                this.handleThankYou(event),
+                this.submitOrdertoDB(event)
+              }}>
                 <tr>    
                   <td>Place Order</td>
                 </tr>
@@ -281,9 +318,7 @@ class App extends Component {
                 type="button" 
                 value="Clear Cart"
                 className="emptyCart"  
-                onClick={(event) => 
-                  this.refreshPage()
-              }/>
+                onClick={this.refreshPage}/>
                 <tr className="total">
                   <td>Total</td>
                   <td>${cost}</td>
@@ -291,7 +326,7 @@ class App extends Component {
               </tfoot>   
             </table>
             <div>
-              {thankYouMessage}
+              {this.state.thankYou && thankYouMessage}
             </div>
           </div>
           <div className="products"> 
@@ -307,7 +342,7 @@ class App extends Component {
 
   //Pulls in all of our products on initial render
   fetchProducts () {
-    request.get('http://localhost:5000/products')
+    superagent.get('http://localhost:5000/products')
     .then((res) => {
       this.setState({
         availableProducts: res.body

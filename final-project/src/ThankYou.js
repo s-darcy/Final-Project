@@ -7,10 +7,12 @@ class ThankYou extends Component {
 
       return (
 
-        <div className="thankYou">  
+        <div className="thankYou"> 
+          {/* <ToggleDisplay show={this.props.showThankYou}> */}
             <p>Thank you!</p>
             <p>Your Order Has Successfully Been Placed.</p>
             <p>Your ID to reference this order is <span className="customerID">{this.props.customerID}</span></p>
+          {/* </ToggleDisplay> */}
         </div> 
       );
     }     
