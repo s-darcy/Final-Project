@@ -28,6 +28,8 @@ class App extends Component {
       quantity : [],
       quantityHandled : [],
       value: '',
+      searchIDText: '',
+      IDText : [],
 
       title: 'Craft Beer Tap Handle Store'
     };
@@ -40,44 +42,48 @@ class App extends Component {
     this.submitOrder = this.submitOrder.bind(this);
     this.emptyCart = this.emptyCart.bind(this);
     this.submitOrdertoDB = this.submitOrdertoDB.bind(this);
+    this.storeOrderDetails = this.storeOrderDetails.bind(this);
     this.handleThankYou = this.handleThankYou.bind(this);
+    this.handleSearchIDTextChange = this.handleSearchIDTextChange.bind(this);
+    this.handleSearchIDTextSubmit = this.handleSearchIDTextSubmit.bind(this);
+    
 
     this.fetchProducts();
     // this.submitOrderToServer();
   }
 
   //This function stores the whole order details (CustomerID, Quantity, Prices, ProductID)
-  // submitOrdertoDB (event) {
-  //   event.preventDefault();
+  storeOrderDetails (event) {
+    event.preventDefault();
 
-  //   //CustomerID
-  //   let customerID = this.state.customerID;
+    //CustomerID
+    let customerID = this.state.customerID;
 
-  //   //Prices
-  //   let prices = this.state.price.slice();
+    //Prices
+    let prices = this.state.price.slice();
 
-  //   //ProductIDs  
-  //   let productID = this.state.selectedProducts.slice();
+    //ProductIDs  
+    let productID = this.state.selectedProducts.slice();
 
-  //   //Quantity
-  //   let quantity = this.state.quantity.slice();
+    //Quantity
+    let quantity = this.state.quantity.slice();
 
-  //   this.state.orderPlaced.push([customerID, quantity, prices, productID]);
-  //   this.setState({
-  //     orderPlaced: [customerID, quantity, prices, productID]
-  //   });
-  // }
-
-   //Creates Custom Customer ID on page load
-   componentWillMount() {
-    let createID = _.uniqueId(Math.floor(Math.random() * 10000000 + 1));
-    
-    console.log(createID);
-    this.state.customerID.push(createID); 
-    this.setState({ 
-    value : createID
+    this.state.orderPlaced.push([customerID, quantity, prices, productID]);
+    this.setState({
+      orderPlaced: [customerID, quantity, prices, productID]
     });
   }
+
+   //Creates Custom Customer ID on page load
+  //  componentWillMount() {
+  //   let createID = _.uniqueId(Math.floor(Math.random() * 10000000 + 1));
+    
+  //   console.log(createID);
+  //   this.state.customerID.push(createID); 
+  //   this.setState({ 
+  //   value : createID
+  //   });
+  // }
 
   //Stores the productID only for the Order Submitted
   submitOrderID (event) {
@@ -132,6 +138,9 @@ class App extends Component {
       // Do whatever with the response
       (res) => {
         console.log(res.status, res.body.orderID);
+        this.setState({
+          customerID: res.body.orderID
+        });
       }
     );
   }
@@ -193,13 +202,39 @@ class App extends Component {
   //Clears pending shopping cart with a window refresh
   refreshPage() {
     window.location.reload();
-} 
+  } 
 
-//Thank You Message State
-handleThankYou() {
-  this.setState({
-    thankYou: !this.state.thankYou
-  });
+  //Thank You Message State
+  handleThankYou() {
+    this.setState({
+      thankYou: !this.state.thankYou
+    });
+  }
+
+  //Handles the Changing Input text into the Search fields
+  handleSearchIDTextChange(event) {
+    const newSearch = event.target.value;
+    let text = Object.assign({}, this.state.searchIDText);
+    text = newSearch;
+    
+    this.setState({
+        "searchIDText" : text
+    });
+  }
+
+  //Handles the Submission of the Input text into the Search fields and store it in state
+  handleSearchIDTextSubmit(event){
+    event.preventDefault();
+    let searchID = event.target.searchIDText;
+    this.state.IDText.push(searchID);
+    
+    this.setState({
+      "IDText" : searchID
+    });
+
+    //Clears the Input Field
+    var IDInput = document.getElementById("IDInput");
+    IDInput.reset();
 }
 
 //This is the <App /> Render
@@ -256,11 +291,19 @@ handleThankYou() {
           <section className="searchOrder">
             <div>
               <p>Would you like to edit or delete a previous order?</p>
-              <input type="text"
-                placeholder="Order ID?"
-                value =""
-                onChange={this.props.handleTextChange}
-              />
+              <form id="IDInput">
+                <input 
+                  type="text"
+                  placeholder="Order ID?"
+                  value={this.searchIDText}
+                  onChange={this.handleSearchIDTextChange}
+                />
+                <input 
+                  type="submit" 
+                  value="Find" 
+                  onClick={this.handleSearchIDTextSubmit}
+                />
+              </form>
               <img className="magnifyingGlass" src="img/magnifying_glass.PNG" alt="magnifying glass icon" />
             </div>
           </section>    

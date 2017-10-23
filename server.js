@@ -61,7 +61,6 @@ router.post('/addpost', (req, res) => {
         if(err) throw err;
 
         let selectedProducts = req.body.selectedProducts;
-
         let orderID = result.insertId;
 
         let insertProductsQuery = `INSERT INTO
@@ -72,7 +71,6 @@ router.post('/addpost', (req, res) => {
             if (key != 0) {
                 insertProductsQuery += `, `;
             }
-
             insertProductsQuery += `(${orderID}, ${selectedProducts[key].productId}, ${selectedProducts[key].quantity})`;
         }
 
@@ -100,7 +98,7 @@ router.get('/updatepost/:id', (req, res) => {
 });
 
 //Delete an order
-router.get('/deletepost/:id', (req, res) => {
+router.delete('/deletepost/:id', (req, res) => {
     let newQuantity = 'Updated Quantity';
     let sql = `DELETE FROM \`Order\` WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
