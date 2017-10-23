@@ -50,6 +50,7 @@ class App extends Component {
     this.handleSearchIDTextChange = this.handleSearchIDTextChange.bind(this);
     this.handleSearchIDTextSubmit = this.handleSearchIDTextSubmit.bind(this);
     this.findOrder = this.findOrder.bind(this);
+    this.deleteOrder = this.deleteOrder.bind(this);
 
     this.fetchProducts();
     // this.submitOrderToServer();
@@ -247,7 +248,6 @@ class App extends Component {
     console.log(searchedID);
 
     superagent.get(`http://localhost:5000/getpost/${searchedID}`)
-    .query('id=')
     .send(searchedID)
     .then(
 
@@ -258,6 +258,21 @@ class App extends Component {
         this.setState({
           previousOrder: res.body
         });
+      }
+    );
+  }
+
+  //Deletes the order from the database when "Delete Order" is pushed
+  deleteOrder (event) {
+    event.preventDefault();
+    let searchedID = this.state.searchIDText;
+    console.log(searchedID);
+
+    superagent.delete(`http://localhost:5000/deletepost/${searchedID}`)
+    .send(searchedID)
+    .then(
+      (res) => {
+        console.log(res.status);
       }
     );
   }
@@ -276,7 +291,7 @@ class App extends Component {
     let cost = this.state.orderPlaced.map((orderPlaced, i) => {
       return(
         <Total
-          oorderPlaced={orderPlaced}
+          orderPlaced={orderPlaced}
         />
       );
     }, this);
@@ -313,6 +328,7 @@ class App extends Component {
       <OrderCheck
         previousOrder={previousOrder}
         refreshPage={this.refreshPage}
+        deleteOrder={this.deleteOrder}
       /> 
     );
   }, this);

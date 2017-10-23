@@ -5,10 +5,12 @@ class Total extends Component {
     render(){
 
         //(NOT WORKING)Calculates the total shopping cart for price and quantity
+        let myTotal = 0;
         let summingItUp = (a,b) => {
-            return this.props.orderProducts.Price * this.props.quantityToOrder;
+            myTotal = this.props.orderPlaced[1] * this.props.orderPlaced[2];
         }
         console.log(summingItUp); 
+        console.log(myTotal);
 
       return (
         <div>

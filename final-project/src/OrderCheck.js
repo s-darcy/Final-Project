@@ -11,7 +11,9 @@ class OrderCheck extends Component {
             <p>Your Order ID: <span className="orderID">{this.props.previousOrder.OrderID}</span></p>
             <p>Your Order Date: <span className="orderDate">{this.props.previousOrder.DateAdded}</span></p>
             <input className="ok" type="button" value="Ok" onClick={this.props.refreshPage}/>
-            <button className="deleteOrder">Delete Order</button>
+            <button className="deleteOrder"
+                onClick={this.props.deleteOrder}
+            >Delete Order</button>
         </div> 
       );
     }     

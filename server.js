@@ -31,7 +31,7 @@ router.get('/products', (req, res) => {
     let sql = `SELECT * FROM \`TapHandles\``;
     connection.query(sql, (err, result) => {
         if(!!err){
-            console.log('Error in the query');
+            return console.log('Error in the query');
         } else {
             res.json(result);
             console.log('Successful query');
@@ -45,8 +45,10 @@ router.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     
     connection.query(sql, (err, result) => {
-        if(err) throw err;
-        res.json(result);
+        if(!!err){
+            return res.send();
+        }
+        return res.json(result);
         console.log(result);
         res.send(res.body);
         res.end();
@@ -60,8 +62,9 @@ router.post('/addpost', (req, res) => {
     VALUES (NOW())`;
 
     connection.query(insertOrderQuery, (err, result) => {
-        if(err) throw err;
-
+        if(!!err) {
+            return res.send();
+        }
         let selectedProducts = req.body.selectedProducts;
         let orderID = result.insertId;
 
@@ -77,7 +80,9 @@ router.post('/addpost', (req, res) => {
         }
 
         connection.query(insertProductsQuery, (err, result) => {
-            if(err) throw err;
+            if(!!err){
+                return res.send();
+            }
             // console.log(result);
             res.json({
                 message: 'Post 1 added',
@@ -92,7 +97,9 @@ router.get('/updatepost/:id', (req, res) => {
     let newQuantity = 'Updated Quantity';
     let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
-        if(err) throw err;
+        if(!!err){
+            return res.send();
+        }
         res.json(result);
         console.log(result);
         res.send('Post updated...');
@@ -103,18 +110,22 @@ router.get('/updatepost/:id', (req, res) => {
 router.delete('/deletepost/:id', (req, res) => {
     let sql = `DELETE FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
-        if(err) throw err;
-        res.send(JSON.stringify(result));
-        console.log(result);
-        res.send('Post deleted...');
+        if(!!err){
+            return console.log('We could not find that Order ID');
+        } else {    
+            console.log(result);
+            res.send('Post deleted...');
+        }
     });
 });
 
-app.use(function(req, res, next) {
+//This bypass CORS Errors
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
-});
+  });
 app.use('/', router);
 
 app.listen(5000, () => {
