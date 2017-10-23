@@ -26,7 +26,7 @@ const router = express.Router();
 
 app.use(bodyParser.json());
 
-//Pulls the description details from TapHandles table
+//Pulls all the product details from TapHandles table (Works)
 router.get('/products', (req, res) => {
     let sql = `SELECT * FROM \`TapHandles\``;
     connection.query(sql, (err, result) => {
@@ -92,7 +92,7 @@ router.get('/updatepost/:id', (req, res) => {
     let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
         if(err) throw err;
-        res.end(JSON.stringify(result));
+        res.json(result);
         console.log(result);
         res.send('Post updated...');
     });

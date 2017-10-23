@@ -7,6 +7,7 @@ import ShoppingCart from './ShoppingCart';
 import Total from './Total'; 
 import SearchOrder from './SearchOrder';
 import ThankYou from './ThankYou';
+import OrderCheck from './OrderCheck';
 
 class App extends Component {
 
@@ -49,7 +50,6 @@ class App extends Component {
     this.handleSearchIDTextChange = this.handleSearchIDTextChange.bind(this);
     this.handleSearchIDTextSubmit = this.handleSearchIDTextSubmit.bind(this);
     this.findOrder = this.findOrder.bind(this);
-    
 
     this.fetchProducts();
     // this.submitOrderToServer();
@@ -307,14 +307,25 @@ class App extends Component {
           submitOrder = {this.submitOrder}
         /> 
       );
-    }, this); 
+    }, this);
+    
+    //After Order ID Requested for DB, rendering Delete Option to the page
+    let foundPreviousOrder = 
+    this.state.previousOrder.map((previousOrder, i) => {
+    return (
+      <OrderCheck
+        previousOrder={previousOrder}
+        refreshPage={this.refreshPage}
+      /> 
+    );
+  }, this);
 
     return (
       <div className="App">
         <h1>{title}</h1>
         <div className="wrapper">
           <section className="searchOrder">
-            <div>
+            <div className="findOrder">
               <p>Would you like to edit or delete a previous order?</p>
               <form id="IDInput">
                 <input 
@@ -325,12 +336,14 @@ class App extends Component {
                 />
                 <img className="magnifyingGlass" src="img/magnifying_glass.PNG" alt="magnifying glass icon" />
                 <button
+                  className="find"
                   type="submit" 
                   onClick={(event) => {
                     this.handleSearchIDTextSubmit(event),
                     this.findOrder(event)
-                  }}>Find</button>
-              </form> 
+                  }}><span>Find</span></button>
+              </form>
+              {foundPreviousOrder}      
             </div>
           </section>    
           <div className="shoppingCart">
