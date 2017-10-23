@@ -40,20 +40,13 @@ ul {
     list-style: none;
 }
 
- td {
+td {
     display: inline-block;
 }
 
 select, label {
     margin: auto 1% auto 5%;
     width: 20%;
- }
- 
- button {
-     width: 80%;
-     margin: 2% 10% 0%;
-     background-color: #ffcc00;
-     border-radius: 4%;
  }
 
  footer {
@@ -80,7 +73,7 @@ select, label {
 .magnifyingGlass {
     width: 25px;
     height: 22px;
-    margin-left: 2%;
+    margin: 0% 15% 0% 1%;
     display: inline-block;
 }
 
@@ -114,6 +107,13 @@ select, label {
 .headerQty {
     left: 25%;
     position: relative; 
+}
+
+.addProduct {
+    width: 80%;
+    margin: 2% 10% 0%;
+    background-color: #ffcc00;
+    border-radius: 4%;
 }
 
 .theCart {

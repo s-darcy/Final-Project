@@ -42,16 +42,16 @@ router.get('/products', (req, res) => {
 
 //Select single order
 router.get('/getpost/:id', (req, res) => {
-    let sql = `SELECT * FROM \`TapHandles\` WHERE ProductID = ${req.params.id}`;
+    let sql = `SELECT * FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
         if(err) throw err;
         res.send(JSON.stringify(result));
         console.log(result);
-        // res.send('Post fetched...');
+        res.send(res.body);
     });
 });
 
-//Insert an order
+//Insert an order (WORKS)
 router.post('/addpost', (req, res) => {
     let insertOrderQuery = `INSERT INTO
     BreweryTapHandles.Order (DateAdded)
@@ -97,10 +97,9 @@ router.get('/updatepost/:id', (req, res) => {
     });
 });
 
-//Delete an order
+//Delete an order (WORKS)
 router.delete('/deletepost/:id', (req, res) => {
-    let newQuantity = 'Updated Quantity';
-    let sql = `DELETE FROM \`Order\` WHERE OrderID = ${req.params.id}`;
+    let sql = `DELETE FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
         if(err) throw err;
         res.send(JSON.stringify(result));

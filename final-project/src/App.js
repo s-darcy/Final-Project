@@ -19,6 +19,7 @@ class App extends Component {
       orderPlaced : [],
       selectedProducts : [],
       orderProducts : [],
+      previousOrder : [],
     
       //React arrays for storing state for render purposes only
       customerID : [],
@@ -46,6 +47,7 @@ class App extends Component {
     this.handleThankYou = this.handleThankYou.bind(this);
     this.handleSearchIDTextChange = this.handleSearchIDTextChange.bind(this);
     this.handleSearchIDTextSubmit = this.handleSearchIDTextSubmit.bind(this);
+    this.findOrder = this.findOrder.bind(this);
     
 
     this.fetchProducts();
@@ -235,7 +237,28 @@ class App extends Component {
     //Clears the Input Field
     var IDInput = document.getElementById("IDInput");
     IDInput.reset();
-}
+  }
+
+  //Searches Database for specific submitted order by OrderID
+  findOrder (event) {
+    event.preventDefault();
+    let searchedID = this.state.searchIDText;
+    console.log(searchedID);
+
+    superagent.get('http://localhost:5000/getpost/:id')
+    .send(searchedID)
+    .then(
+
+      // Store the response in an array for PreviousOrder 
+      //so I can use React to ask if they want to Delete or Edit
+      (res) => {
+        console.log(res.status, res.body.orderID);
+        this.setState({
+          previousOrder: res.body
+        });
+      }
+    );
+  }
 
 //This is the <App /> Render
   render() {
@@ -298,13 +321,14 @@ class App extends Component {
                   value={this.searchIDText}
                   onChange={this.handleSearchIDTextChange}
                 />
-                <input 
+                <img className="magnifyingGlass" src="img/magnifying_glass.PNG" alt="magnifying glass icon" />
+                <button
                   type="submit" 
-                  value="Find" 
-                  onClick={this.handleSearchIDTextSubmit}
-                />
-              </form>
-              <img className="magnifyingGlass" src="img/magnifying_glass.PNG" alt="magnifying glass icon" />
+                  onClick={(event) => {
+                    this.handleSearchIDTextSubmit(event),
+                    this.findOrder(event)
+                  }}>Find</button>
+              </form> 
             </div>
           </section>    
           <div className="shoppingCart">

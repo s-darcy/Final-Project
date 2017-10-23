@@ -24,6 +24,7 @@ class ProductInfo extends Component {
               </select>
             <div>
               <button
+                className="addProduct"
                 name={this.props.product.Name}
                 id={this.props.product.Price}
                 value={this.props.product.ProductID} 
