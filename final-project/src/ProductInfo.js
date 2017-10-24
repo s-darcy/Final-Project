@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import EditProducts from './EditProducts';
 
 class ProductInfo extends Component {
 
@@ -28,21 +29,17 @@ class ProductInfo extends Component {
                 name={this.props.product.Name}
                 id={this.props.product.Price}
                 value={this.props.product.ProductID} 
-                onClick={(event) => {
-                  isQuantitySelected !== (0 || null) ?  
-                  (  
-                      this.props.handleProducts(event),
-                      this.props.submitQuantity(event),
-                      this.props.submitOrderID(event),  //this.props.product.ProductID,
-                      this.props.submitOrder(this.props.product.ProductID, event)
-                      )  
-                  : 
-                      alert("Please select a quantity before you Add to Cart");
-                  }}>Add to Cart</button>    
-              </div>  
-            </div>
+                onClick={(event) => { 
+                    this.props.handleProducts(event),
+                    this.props.submitQuantity(event),
+                    this.props.submitOrderID(event),
+                    this.props.submitOrder(this.props.product.ProductID, event)
+                }}>
+              Add to Cart</button>    
+            </div>  
           </div>
-        );
-      }     
+        </div>
+      );
+    }     
   }  
 export default ProductInfo;

@@ -26,7 +26,7 @@ const router = express.Router();
 
 app.use(bodyParser.json());
 
-//Pulls all the product details from TapHandles table 
+//Pulls all the products details from TapHandles table 
 router.get('/products', (req, res) => {
     let sql = `SELECT * FROM \`TapHandles\``;
     connection.query(sql, (err, result) => {
@@ -55,7 +55,8 @@ router.get('/getpost/:id', (req, res) => {
     });
 });
 
-//Finds a single order from SelectedProducts Table
+//Finds a single order from SelectedProducts Table 
+//and Joins it on the TapHandles table
 router.get('/selectedproducts/:id', (req, res) => {
     let sql = `SELECT * 
     FROM BreweryTapHandles.SelectedProducts SP

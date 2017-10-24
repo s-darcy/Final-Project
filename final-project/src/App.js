@@ -37,7 +37,6 @@ class App extends Component {
       searchIDText : '',
       totalPrice : '',
 
-
       title: 'Craft Beer Tap Handle Store'
     };
 
@@ -335,7 +334,7 @@ class App extends Component {
     let totalPrice = this.state.totalPrice;
     let show = this.state.show;
 
-    //(NOT WORKING) Rendering the shopping cart total
+    //Renders the shopping cart total
     let cost =
         <Total
           totalPrice={totalPrice}
@@ -357,10 +356,11 @@ class App extends Component {
           quantity={this.quantity}
           quantityHandled={this.quantityHandled}
           value={this.state.value}
-          handleQuantity = {this.handleQuantity}
-          handleProducts = {this.handleProducts}
-          submitQuantity = {this.submitQuantity}
-          submitOrderID = {this.submitOrderID}
+          handleQuantity={this.handleQuantity}
+          handleProducts={this.handleProducts}
+          submitQuantity={this.submitQuantity}
+          submitOrderID={this.submitOrderID}
+          submitOrder={this.submitOrder}
         /> 
       );
     }, this);

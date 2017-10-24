@@ -9,11 +9,11 @@ class EditProducts extends Component {
             <div>
                 <table style={table}>
                     <table className="innerTables headerName">
-                        <thead>
-                        <tr>
-                            <th>Tap Handle Name</th>
-                        </tr>  
-                    </thead>
+                        {/* <thead>
+                            <tr>
+                                <th>Tap Handle Name</th>
+                            </tr>  
+                    </thead> */}
                     <tbody>       
                         <tr>
                             {this.props.editProducts.Name}
@@ -21,11 +21,11 @@ class EditProducts extends Component {
                     </tbody>
                     </table>
                     <table className="innerTables headerPrice">
-                        <thead>
-                        <tr>
-                            <th>Price</th>
-                        </tr>
-                        </thead> 
+                        {/* <thead>
+                            <tr>
+                                <th>Price</th>
+                            </tr>
+                        </thead>  */}
                         <tbody>
                         <tr>
                             {this.props.editProducts.Price}
@@ -33,11 +33,11 @@ class EditProducts extends Component {
                         </tbody>   
                     </table>
                     <table className="innerTables headerQty">
-                        <thead>
-                        <tr>
-                            <th>Qty</th>
-                        </tr>
-                        </thead> 
+                        {/* <thead>
+                            <tr>
+                                <th>Qty</th>
+                            </tr>
+                        </thead>  */}
                         <tbody>
                         <tr>
                             {this.props.editProducts.Quantity}

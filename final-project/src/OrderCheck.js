@@ -37,8 +37,8 @@ class OrderCheck extends Component {
             <button 
                 className="deleteOrder"
                 onClick={(event) => {
-                this.props.deleteOrder(event),
-                this.props.notifyingDeletion(event)
+                    this.props.deleteOrder(event),
+                    this.props.notifyingDeletion(event)
                 }}>
             Delete Order</button>
             <div>
