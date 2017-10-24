@@ -8,7 +8,7 @@ import Total from './Total';
 import SearchOrder from './SearchOrder';
 import ThankYou from './ThankYou';
 import OrderCheck from './OrderCheck';
-import EditProducts from 'EditProducts';
+import EditProducts from './EditProducts';
 
 class App extends Component {
 
@@ -376,7 +376,7 @@ class App extends Component {
         pullSelectedProducts={this.pullSelectedProducts}
         editOrder={this.editOrder}
         notifyingDeletion={this.notifyingDeletion}
-        editProducts={this.editProducts}
+        editProducts={this.state.editProducts}
         show={show}
       /> 
     );

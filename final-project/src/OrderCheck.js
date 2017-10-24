@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import ToggleDisplay from 'react-toggle-display';
-import EditProducts from 'EditProducts';
+import EditProducts from './EditProducts';
 
 class OrderCheck extends Component {
 
     render(){
 
         let retrievedProduct = 
-        this.state.props.editProducts.map((editProducts, i) => {
-        return (
-          <EditProducts
-            editProducts={this.props.editProducts}
-          /> 
-        );
-      }, this);
+            this.props.editProducts.map((editProducts, i) => {
+            return (
+                <EditProducts
+                    editProducts={this.props.editProducts}
+                /> 
+            );
+        }, this);
 
       return (
 

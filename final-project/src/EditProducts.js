@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 class EditProducts extends Component {
 
     render(){
-
+        var table = {width: '100%'};
+        
         return (
             <div>
                 <table style={table}>
@@ -15,7 +16,7 @@ class EditProducts extends Component {
                     </thead>
                     <tbody>       
                         <tr>
-                        
+                            {this.props.editProducts.Name}
                         </tr>
                     </tbody>
                     </table>
@@ -27,7 +28,7 @@ class EditProducts extends Component {
                         </thead> 
                         <tbody>
                         <tr>
-                            
+                            {this.props.editProducts.Price}
                         </tr>
                         </tbody>   
                     </table>
@@ -39,7 +40,7 @@ class EditProducts extends Component {
                         </thead> 
                         <tbody>
                         <tr>
-                            
+                            {this.props.editProducts.Quantity}
                         </tr>
                         </tbody> 
                     </table>      
