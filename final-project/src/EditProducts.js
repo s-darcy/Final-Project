@@ -47,7 +47,12 @@ class EditProducts extends Component {
                                 {this.props.editProducts.map((editProduct, i) => 
                                     <td key={i} className="cartItems tdDelete1Item">
                                         {editProduct.Quantity}
-                                        <button  value="Remove" className="delete1Item" onClick >
+                                        <button 
+                                            value={this.props.editProducts.SelectedProductsID} 
+                                            className="delete1Item" 
+                                            onClick={(event)=>{
+                                                this.props.handleEditRemove(this.props.editProducts.SelectedProductsID, event)
+                                        }}>
                                             Remove
                                         </button>    
                                     </td>

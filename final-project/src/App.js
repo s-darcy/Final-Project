@@ -23,11 +23,13 @@ class App extends Component {
       orderProducts : [],
       editProducts : [],
       previousOrder : [],
+      itemToRemove : [],
     
       //React arrays for storing state for render purposes only
       customerID : [],
       thankYou : false,
       show : false, //deleted Message
+      editToggle : false,
       products : [],
       price : [],
       quantity : [],
@@ -57,6 +59,7 @@ class App extends Component {
     this.notifyingDeletion = this.notifyingDeletion.bind(this);
     this.pullSelectedProducts= this.pullSelectedProducts.bind(this);
     this.editOrder = this.editOrder.bind(this);
+    this.handleEditRemove = this.handleEditRemove.bind(this);
     
     this.fetchProducts();
     // this.submitOrderToServer();
@@ -187,12 +190,51 @@ class App extends Component {
     window.location.reload();
   } 
 
+  itemToRemove(event) {
+
+  }
+
+  //Removes the one products from state and uploads a new array
+  handleEditRemove(product, event) {
+    event.preventDefault();
+    let itemToRemove = event.target.value;
+    console.log(itemToRemove);
+
+    //(NOT WORKING) target the editProducts table
+    let curEditProduct = this.state.editProducts.map((product)=>{
+      if (itemToRemove === product.SelectedProductsID){
+        return product;
+       }  
+    });
+    console.log(curEditProduct);
+
+    let orginalArray = this.state.editProducts.slice();
+    console.log(orginalArray);
+    //use lodash _.pull to remove certain object in array
+    
+    let newArray = _.pull(orginalArray, curEditProduct)
+    console.log(newArray);
+    //pull down current state and find and remove
+    //then re-save state
+    this.state.editProducts.push(newArray);
+    this.setState({
+      editProducts : newArray 
+    });
+  }
+
   //Thank You Message State
   handleThankYou() {
     this.setState({
       thankYou : !this.state.thankYou
     });
   }
+
+    //Edit Table State
+    handleEditToggle(event) {
+      this.setState({
+        editToggle: !this.state.editToggle
+      });
+    }
 
   //Deleted Order has text added stating "This Order is now deleted"
   notifyingDeletion(event) {
@@ -307,6 +349,24 @@ class App extends Component {
     );
   }
 
+  removeSelectedItem (event) {
+    event.preventDefault();
+    // let searchedID = this.state.searchIDText;
+
+    // superagent.get(`http://localhost:5000/removeproduct/${searchedID}`)
+    // .send(searchedID)
+    // .then(
+    //   (res) => {
+    //     console.log(res.status, res.body);
+
+    //     this.state.editProducts.push(res.body);
+    //     this.setState({
+    //       editProducts : res.body
+    //     });
+    //   }
+    // );
+  }
+
   //Edits an Order in DB
   editOrder (event) {
     event.preventDefault();
@@ -377,6 +437,7 @@ class App extends Component {
         editOrder={this.editOrder}
         notifyingDeletion={this.notifyingDeletion}
         editProducts={this.state.editProducts}
+        handleEditRemove={this.handleEditRemove}
         show={show}
       /> 
     );

@@ -10,6 +10,7 @@ class OrderCheck extends Component {
             <EditProducts
                 editProducts={this.props.editProducts}
                 handleEditToggle={this.props.handleEditToggle}
+                handleEditRemove={this.props.handleEditRemove}
             /> 
 
       return (
