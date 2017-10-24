@@ -57,7 +57,11 @@ router.get('/getpost/:id', (req, res) => {
 
 //Finds a single order from SelectedProducts Table
 router.get('/selectedproducts/:id', (req, res) => {
-    let sql = `SELECT * FROM BreweryTapHandles.SelectedProducts WHERE OrderID = ${req.params.id}`;
+    let sql = `SELECT * 
+    FROM BreweryTapHandles.SelectedProducts SP
+    LEFT JOIN BreweryTapHandles.TapHandles TH 
+    ON SP.ProductID = TH.ProductID
+    WHERE OrderID = ${req.params.id}`;
     
     connection.query(sql, (err, result) => {
         if(err){

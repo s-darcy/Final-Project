@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import ToggleDisplay from 'react-toggle-display';
+import EditProducts from 'EditProducts';
 
 class OrderCheck extends Component {
 
     render(){
+
+        let retrievedProduct = 
+        this.state.props.editProducts.map((editProducts, i) => {
+        return (
+          <EditProducts
+            editProducts={this.props.editProducts}
+          /> 
+        );
+      }, this);
 
       return (
 
@@ -31,6 +41,9 @@ class OrderCheck extends Component {
                 this.props.notifyingDeletion(event)
                 }}>
             Delete Order</button>
+            <div>
+                {retrievedProduct}
+            </div>    
         </div> 
       );
     }     

@@ -8,6 +8,7 @@ import Total from './Total';
 import SearchOrder from './SearchOrder';
 import ThankYou from './ThankYou';
 import OrderCheck from './OrderCheck';
+import EditProducts from 'EditProducts';
 
 class App extends Component {
 
@@ -360,7 +361,6 @@ class App extends Component {
           handleProducts = {this.handleProducts}
           submitQuantity = {this.submitQuantity}
           submitOrderID = {this.submitOrderID}
-          submitOrder = {this.submitOrder}
         /> 
       );
     }, this);
@@ -376,6 +376,7 @@ class App extends Component {
         pullSelectedProducts={this.pullSelectedProducts}
         editOrder={this.editOrder}
         notifyingDeletion={this.notifyingDeletion}
+        editProducts={this.editProducts}
         show={show}
       /> 
     );
