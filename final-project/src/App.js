@@ -24,14 +24,15 @@ class App extends Component {
     
       //React arrays for storing state for render purposes only
       customerID : [],
-      thankYou: false,
+      thankYou : false,
+      show : false, //deleted Message
       products : [],
-      price: [],
+      price : [],
       quantity : [],
       quantityHandled : [],
       idText : [],
-      value: '',
-      searchIDText: '',
+      value : '',
+      searchIDText : '',
       totalPrice : '',
 
 
@@ -52,6 +53,7 @@ class App extends Component {
     this.handleSearchIDTextSubmit = this.handleSearchIDTextSubmit.bind(this);
     this.findOrder = this.findOrder.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
+    this.notifyingDeletion = this.notifyingDeletion.bind(this);
 
     this.fetchProducts();
     // this.submitOrderToServer();
@@ -94,7 +96,6 @@ class App extends Component {
   submitOrderID (event) {
     event.preventDefault();
     let productSubmitted = event.target.value;
-    console.log(productSubmitted);
 
     this.state.selectedProducts.push(productSubmitted);
     this.setState({
@@ -102,40 +103,38 @@ class App extends Component {
     });
   }
 
-  //IT's finding the selected product from all of our products in state
+  //It's finding the selected product from all of our products in state
   submitOrder (product, event) {
     event.preventDefault();
 
     let originalProducts = this.state.availableProducts.slice();
-    console.log(originalProducts);
     let findProduct = originalProducts.find((original) => {
       if (original.ProductID == product){
         return original;
       };
     });
-    console.log(findProduct);
+
     this.state.orderProducts.push(findProduct);
     this.setState({
       value: findProduct
     });
 
-        //Calculating Total Cost
-        let multiplyPrice = this.state.price.map((price) => {
-          return price;
-        });
-        let multiplyQuantity = this.state.quantity.map((quantity)=>{
-          return quantity;
-        });
-        let combined = multiplyPrice.map((a, i) => a * multiplyQuantity[i]);
-        let summingCombinedArray = _.sum(combined);
-        console.log(summingCombinedArray);
-    
-        //Storing Total as an Object in State
-        let newTotal = Object.assign({}, this.state.totalPrice);
-        newTotal = summingCombinedArray ;
-        this.setState({
-          "totalPrice" : newTotal
-        });
+    //Calculating Total Cost
+    let multiplyPrice = this.state.price.map((price) => {
+      return price;
+    });
+    let multiplyQuantity = this.state.quantity.map((quantity)=>{
+      return quantity;
+    });
+    let combined = multiplyPrice.map((a, i) => a * multiplyQuantity[i]);
+    let summingCombinedArray = _.sum(combined);
+
+    //Storing Total as an Object in State
+    let newTotal = Object.assign({}, this.state.totalPrice);
+    newTotal = summingCombinedArray ;
+    this.setState({
+      "totalPrice" : newTotal
+    });
   }
 
   //Helps the quantity select drop down
@@ -177,7 +176,6 @@ class App extends Component {
     this.setState({
       value: priceSelected 
     });
-    console.log("The product you chose is " + productSelected + " at $" + priceSelected);
   }
 
   //Empties the shopping cart by setting all the array lengths back to 0
@@ -200,7 +198,14 @@ class App extends Component {
   //Thank You Message State
   handleThankYou() {
     this.setState({
-      thankYou: !this.state.thankYou
+      thankYou : !this.state.thankYou
+    });
+  }
+
+  //Deleted Order has text added stating "This Order is now deleted"
+  notifyingDeletion(event) {
+    this.setState({
+      show : !this.state.show
     });
   }
 
@@ -219,11 +224,6 @@ class App extends Component {
   handleSearchIDTextSubmit(event){
     event.preventDefault();
     let searchID = event.target.searchIDText;
-    // this.state.idText.push(searchID);
-    
-    // this.setState({
-    //   "idText" : searchID
-    // });
 
     //Clears the Input Field
     var IDInput = document.getElementById("IDInput");
@@ -248,42 +248,37 @@ class App extends Component {
     let mergedQuantityProduct = _.merge(quantitySelected, orderProductID);
     console.log(mergedQuantityProduct);
 
-
-    // let productIDQuantity = {
+    let productIDQuantity = {
     //   // "selectedProducts": [
     //   //     {
     //   //         "productId": orderProductID,
     //   //         "quantity": quantitySelected
     //   //     }
     //   //   ]
-    //   "selectedProducts": [
-    //         {
-    //           mergedArray
-    //         }
-    //       ]
-    
-    
-    // };
-      // console.log(productIDQuantity);
+      "selectedProducts": [
+            {
+              mergedQuantityProduct
+            }
+          ]
+    };
+      console.log(productIDQuantity);
 
-    // superagent.post('http://localhost:5000/addPost')
-    // .send(productIDQuantity)
-    // .then(
-    //   // Do whatever with the response
-    //   (res) => {
-    //     console.log(res.status, res.body.orderID);
-    //     this.setState({
-    //       customerID: res.body.orderID
-    //     });
-    //   }
-    // );
+    superagent.post('http://localhost:5000/addPost')
+    .send(productIDQuantity)
+    .then(
+      (res) => {
+        console.log(res.status, res.body.orderID);
+        this.setState({
+          customerID: res.body.orderID
+        });
+      }
+    );
   }
 
   //Searches Database for specific submitted order by OrderID
   findOrder (event) {
     event.preventDefault();
     let searchedID = this.state.searchIDText;
-    console.log(searchedID);
 
     superagent.get(`http://localhost:5000/getpost/${searchedID}`)
     .send(searchedID)
@@ -325,6 +320,7 @@ class App extends Component {
     let price = this.state.price;
     let customerID = this.state.customerID;
     let totalPrice = this.state.totalPrice;
+    let show = this.state.show;
 
     //(NOT WORKING) Rendering the shopping cart total
     let cost =
@@ -365,6 +361,8 @@ class App extends Component {
         previousOrder={previousOrder}
         refreshPage={this.refreshPage}
         deleteOrder={this.deleteOrder}
+        notifyingDeletion={this.notifyingDeletion}
+        show={show}
       /> 
     );
   }, this);

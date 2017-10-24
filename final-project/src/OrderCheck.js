@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ToggleDisplay from 'react-toggle-display';
 
 class OrderCheck extends Component {
 
@@ -11,11 +12,20 @@ class OrderCheck extends Component {
         <div>
             <p>Previous Order</p>
             <p>Your Order ID: <span className="orderID">{this.props.previousOrder.OrderID}</span></p>
-            <p>Your Order Date: <span className="orderDate">{this.props.previousOrder.DateAdded}</span></p>
+            <ToggleDisplay show={!this.props.show}>
+                <p>Your Order Date: <span className="orderDate">{this.props.previousOrder.DateAdded}</span></p>
+            </ToggleDisplay>
+            <ToggleDisplay if={this.props.show} tag="section" className="orderDeleted">
+               <p >Your Order Has Been Deleted</p>
+            </ToggleDisplay> 
             <input className="ok" type="button" value="View Order" onClick={this.props.refreshPage}/>
-            <button className="deleteOrder"
-                onClick={this.props.deleteOrder}
-            >Delete Order</button>
+            <button 
+                className="deleteOrder"
+                onClick={(event) => {
+                this.props.deleteOrder(event),
+                this.props.notifyingDeletion(event)
+                }}>
+            Delete Order</button>
         </div> 
       );
     }     

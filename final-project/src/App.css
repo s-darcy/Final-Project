@@ -192,10 +192,17 @@ select, label {
     margin: 3% 0% 1%;
 }
 
-.customerID, .orderID, .orderDate {
-    color:  #209205;
+.customerID, .orderID, .orderDate, .orderDeleted {
     font-size: 1.4rem;
     font-family: serif;
+}
+
+.customerID, .orderID, .orderDate{
+    color:  #209205;
+}
+
+.orderDeleted {
+    color: red;
 }
 
 .thankYou {
