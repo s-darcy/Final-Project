@@ -205,6 +205,10 @@ select, label {
     color: red;
 }
 
+.editProductsTable {
+    float: left;
+}
+
 .thankYou {
     text-align: center;
 }

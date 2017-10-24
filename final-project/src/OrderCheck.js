@@ -7,13 +7,10 @@ class OrderCheck extends Component {
     render(){
 
         let retrievedProduct = 
-            this.props.editProducts.map((editProducts, i) => {
-            return (
-                <EditProducts
-                    editProducts={this.props.editProducts}
-                /> 
-            );
-        }, this);
+            <EditProducts
+                editProducts={this.props.editProducts}
+                handleEditToggle={this.props.handleEditToggle}
+            /> 
 
       return (
 
@@ -39,7 +36,7 @@ class OrderCheck extends Component {
                 onClick={(event) => {
                     this.props.deleteOrder(event),
                     this.props.notifyingDeletion(event)
-                }}>
+            }}>
             Delete Order</button>
             <div>
                 {retrievedProduct}

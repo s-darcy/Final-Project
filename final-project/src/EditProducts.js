@@ -1,50 +1,53 @@
 import React, { Component } from 'react';
+import ToggleDisplay from 'react-toggle-display';
 
 class EditProducts extends Component {
 
     render(){
-        var table = {width: '100%'};
+        // var table = {width: '100%'};
         
         return (
             <div>
-                <table style={table}>
+                <ToggleDisplay show={!this.props.handleEditToggle}>
+                <table className="editProductsTable" >
                     <table className="innerTables headerName">
-                        {/* <thead>
+                        <thead>
                             <tr>
                                 <th>Tap Handle Name</th>
                             </tr>  
-                    </thead> */}
+                        </thead>
                     <tbody>       
                         <tr>
-                            {this.props.editProducts.Name}
+                            {this.props.editProducts.map((editProduct, i) => <td key={i} className="cartItems">{editProduct.Name}</td>)}
                         </tr>
                     </tbody>
                     </table>
                     <table className="innerTables headerPrice">
-                        {/* <thead>
+                        <thead>
                             <tr>
                                 <th>Price</th>
                             </tr>
-                        </thead>  */}
+                        </thead> 
                         <tbody>
-                        <tr>
-                            {this.props.editProducts.Price}
-                        </tr>
+                            <tr>
+                                {this.props.editProducts.map((editProduct, i) => <td key={i} className="cartItems">{editProduct.Price}</td>)}
+                            </tr>
                         </tbody>   
                     </table>
                     <table className="innerTables headerQty">
-                        {/* <thead>
+                        <thead>
                             <tr>
                                 <th>Qty</th>
                             </tr>
-                        </thead>  */}
+                        </thead> 
                         <tbody>
-                        <tr>
-                            {this.props.editProducts.Quantity}
-                        </tr>
+                            <tr>
+                                {this.props.editProducts.map((editProduct, i) => <td key={i} className="cartItems">{editProduct.Quantity}</td>)}
+                            </tr>
                         </tbody> 
                     </table>      
-                </table>             
+                </table> 
+                </ToggleDisplay>            
             </div> 
         );
     }     
