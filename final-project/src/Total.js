@@ -6,9 +6,10 @@ class Total extends Component {
     render(){
 
       return (
-        <div>
-            <p>${this.props.totalPrice}.00</p>
-        </div>
+            <tr className="total">
+                <td>   ${this.props.totalPrice}.00</td>
+                <td></td>
+            </tr>
       );
     }     
 }  

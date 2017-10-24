@@ -102,8 +102,7 @@ class App extends Component {
     });
   }
 
-  //(NOT WORKING) Store the entire product details for the order submitted
-  //by comparing the selected ProductID against all the product's ProductID
+  //IT's finding the selected product from all of our products in state
   submitOrder (product, event) {
     event.preventDefault();
 
@@ -119,6 +118,24 @@ class App extends Component {
     this.setState({
       value: findProduct
     });
+
+        //Calculating Total Cost
+        let multiplyPrice = this.state.price.map((price) => {
+          return price;
+        });
+        let multiplyQuantity = this.state.quantity.map((quantity)=>{
+          return quantity;
+        });
+        let combined = multiplyPrice.map((a, i) => a * multiplyQuantity[i]);
+        let summingCombinedArray = _.sum(combined);
+        console.log(summingCombinedArray);
+    
+        //Storing Total as an Object in State
+        let newTotal = Object.assign({}, this.state.totalPrice);
+        newTotal = summingCombinedArray ;
+        this.setState({
+          "totalPrice" : newTotal
+        });
   }
 
   //Helps the quantity select drop down
@@ -231,25 +248,6 @@ class App extends Component {
     let mergedQuantityProduct = _.merge(quantitySelected, orderProductID);
     console.log(mergedQuantityProduct);
 
-    
-    //Calculating Total Cost
-    let multiplyPrice = this.state.price.map((price) => {
-      return price;
-    });
-    let multiplyQuantity = this.state.quantity.map((quantity)=>{
-      return quantity;
-    });
-    let combined = multiplyPrice.map((a, i) => a * multiplyQuantity[i]);
-    let summingCombinedArray = _.sum(combined);
-    console.log(summingCombinedArray);
-
-    //Storing Total as an Object in State
-    let newTotal = Object.assign({}, this.state.totalPrice);
-    newTotal = summingCombinedArray ;
-    this.setState({
-      "totalPrice" : newTotal
-    });
-
 
     // let productIDQuantity = {
     //   // "selectedProducts": [
@@ -326,11 +324,12 @@ class App extends Component {
     let products = this.state.products;
     let price = this.state.price;
     let customerID = this.state.customerID;
+    let totalPrice = this.state.totalPrice;
 
     //(NOT WORKING) Rendering the shopping cart total
     let cost =
         <Total
-          totalPrice={this.totalPrice}
+          totalPrice={totalPrice}
         />
 
     //Injects the Thank You Component
@@ -452,10 +451,7 @@ class App extends Component {
                 value="Clear Cart"
                 className="emptyCart"  
                 onClick={this.refreshPage}/>
-                <tr className="total">
-                  <td>Total</td>
-                  <td>{cost}</td>
-                </tr>
+                {cost}
               </tfoot>   
             </table>
             <div>
