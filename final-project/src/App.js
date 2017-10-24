@@ -20,6 +20,7 @@ class App extends Component {
       orderPlaced : [],
       selectedProducts : [],
       orderProducts : [],
+      editProducts : [],
       previousOrder : [],
     
       //React arrays for storing state for render purposes only
@@ -54,7 +55,9 @@ class App extends Component {
     this.findOrder = this.findOrder.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
     this.notifyingDeletion = this.notifyingDeletion.bind(this);
-
+    this.pullSelectedProducts= this.pullSelectedProducts.bind(this);
+    this.editOrder = this.editOrder.bind(this);
+    
     this.fetchProducts();
     // this.submitOrderToServer();
   }
@@ -80,17 +83,6 @@ class App extends Component {
       orderPlaced: [customerID, quantity, prices, productID]
     });
   }
-
-   //Creates Custom Customer ID on page load
-  //  componentWillMount() {
-  //   let createID = _.uniqueId(Math.floor(Math.random() * 10000000 + 1));
-    
-  //   console.log(createID);
-  //   this.state.customerID.push(createID); 
-  //   this.setState({ 
-  //   value : createID
-  //   });
-  // }
 
   //Stores the productID only for the Order Submitted
   submitOrderID (event) {
@@ -262,7 +254,7 @@ class App extends Component {
     );
   }
 
-  //Searches Database for specific submitted order by OrderID
+  //Finds specific submitted order by OrderID
   findOrder (event) {
     event.preventDefault();
     let searchedID = this.state.searchIDText;
@@ -286,7 +278,6 @@ class App extends Component {
   deleteOrder (event) {
     event.preventDefault();
     let searchedID = this.state.searchIDText;
-    console.log(searchedID);
 
     superagent.delete(`http://localhost:5000/deletepost/${searchedID}`)
     .send(searchedID)
@@ -295,6 +286,40 @@ class App extends Component {
         console.log(res.status);
       }
     );
+  }
+
+  //Retrieves selected products from previous order so we can edit them
+  pullSelectedProducts (event) {
+    event.preventDefault();
+    let searchedID = this.state.searchIDText;
+
+    superagent.get(`http://localhost:5000/selectedproducts/${searchedID}`)
+    .send(searchedID)
+    .then(
+      (res) => {
+        console.log(res.status, res.body);
+
+        this.state.editProducts.push(res.body);
+        this.setState({
+          editProducts : res.body
+        });
+      }
+    );
+  }
+
+  //Edits an Order in DB
+  editOrder (event) {
+    event.preventDefault();
+    let searchedID = this.state.searchIDText;
+    console.log(searchedID);
+
+    // superagent.put(`http://localhost:5000/updatepost/${searchedID}`)
+    // .send(searchedID)
+    // .then(
+    //   (res) => {
+    //     console.log(res.status);
+    //   }
+    // );
   }
 
 //This is the <App /> Render
@@ -348,6 +373,8 @@ class App extends Component {
         previousOrder={previousOrder}
         refreshPage={this.refreshPage}
         deleteOrder={this.deleteOrder}
+        pullSelectedProducts={this.pullSelectedProducts}
+        editOrder={this.editOrder}
         notifyingDeletion={this.notifyingDeletion}
         show={show}
       /> 

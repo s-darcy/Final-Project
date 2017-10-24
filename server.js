@@ -26,7 +26,7 @@ const router = express.Router();
 
 app.use(bodyParser.json());
 
-//Pulls all the product details from TapHandles table (Works)
+//Pulls all the product details from TapHandles table 
 router.get('/products', (req, res) => {
     let sql = `SELECT * FROM \`TapHandles\``;
     connection.query(sql, (err, result) => {
@@ -40,7 +40,7 @@ router.get('/products', (req, res) => {
     });
 });
 
-//Finds a single order (WORKS)
+//Finds a single order from Orders Table
 router.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     
@@ -55,7 +55,22 @@ router.get('/getpost/:id', (req, res) => {
     });
 });
 
-//Insert an order (WORKS)
+//Finds a single order from SelectedProducts Table
+router.get('/selectedproducts/:id', (req, res) => {
+    let sql = `SELECT * FROM BreweryTapHandles.SelectedProducts WHERE OrderID = ${req.params.id}`;
+    
+    connection.query(sql, (err, result) => {
+        if(err){
+            return res.send();
+        }
+        return res.json(result);
+        console.log(result);
+        res.send(res.body);
+        res.end();
+    });
+});
+
+//Insert an order 
 router.post('/addpost', (req, res) => {
     let insertOrderQuery = `INSERT INTO
     BreweryTapHandles.Order (DateAdded)
@@ -106,7 +121,7 @@ router.put('/updatepost/:id', (req, res) => {
     });
 });
 
-//Delete an order (WORKS)
+//Delete an order 
 router.delete('/deletepost/:id', (req, res) => {
     let sql = `DELETE FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {

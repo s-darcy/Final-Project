@@ -18,7 +18,12 @@ class OrderCheck extends Component {
             <ToggleDisplay if={this.props.show} tag="section" className="orderDeleted">
                <p >Your Order Has Been Deleted</p>
             </ToggleDisplay> 
-            <input className="ok" type="button" value="View Order" onClick={this.props.refreshPage}/>
+            <input 
+                className="ok" 
+                type="button" 
+                value="Edit Order" 
+                onClick={this.props.pullSelectedProducts}
+            />
             <button 
                 className="deleteOrder"
                 onClick={(event) => {
