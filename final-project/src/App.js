@@ -32,6 +32,7 @@ class App extends Component {
       idText : [],
       value: '',
       searchIDText: '',
+      totalPrice : '',
 
 
       title: 'Craft Beer Tap Handle Store'
@@ -118,35 +119,6 @@ class App extends Component {
     this.setState({
       value: findProduct
     });
-  }
-
-  submitOrdertoDB (product, event) {
-    // event.preventDefault();
-
-    let fakeObject = {
-      "selectedProducts": [
-          {
-              "productId": 5,
-              "quantity": 2
-          },
-          {
-              "productId": 6,
-              "quantity": 1
-          }
-      ]
-  };
-
-    superagent.post('http://localhost:5000/addPost')
-    .send(fakeObject)
-    .then(
-      // Do whatever with the response
-      (res) => {
-        console.log(res.status, res.body.orderID);
-        this.setState({
-          customerID: res.body.orderID
-        });
-      }
-    );
   }
 
   //Helps the quantity select drop down
@@ -241,6 +213,74 @@ class App extends Component {
     IDInput.reset();
   }
 
+  //CRUD Functionality//  
+  //Submits an Order to the Orders table
+  submitOrdertoDB (product, event) {
+
+    //Mapping over the quantity selected
+    let quantitySelected = this.state.quantity.map((quantity)=>{
+      return {"quantity" : quantity};
+    });
+
+    //Mapping over all Product IDs selected
+    let orderProductID = this.state.orderProducts.map((orderProducts) => {
+      return {"productID" : orderProducts.ProductID};
+    });
+
+    //Lodash merges the two arrays 
+    let mergedQuantityProduct = _.merge(quantitySelected, orderProductID);
+    console.log(mergedQuantityProduct);
+
+    
+    //Calculating Total Cost
+    let multiplyPrice = this.state.price.map((price) => {
+      return price;
+    });
+    let multiplyQuantity = this.state.quantity.map((quantity)=>{
+      return quantity;
+    });
+    let combined = multiplyPrice.map((a, i) => a * multiplyQuantity[i]);
+    let summingCombinedArray = _.sum(combined);
+    console.log(summingCombinedArray);
+
+    //Storing Total as an Object in State
+    let newTotal = Object.assign({}, this.state.totalPrice);
+    newTotal = summingCombinedArray ;
+    this.setState({
+      "totalPrice" : newTotal
+    });
+
+
+    // let productIDQuantity = {
+    //   // "selectedProducts": [
+    //   //     {
+    //   //         "productId": orderProductID,
+    //   //         "quantity": quantitySelected
+    //   //     }
+    //   //   ]
+    //   "selectedProducts": [
+    //         {
+    //           mergedArray
+    //         }
+    //       ]
+    
+    
+    // };
+      // console.log(productIDQuantity);
+
+    // superagent.post('http://localhost:5000/addPost')
+    // .send(productIDQuantity)
+    // .then(
+    //   // Do whatever with the response
+    //   (res) => {
+    //     console.log(res.status, res.body.orderID);
+    //     this.setState({
+    //       customerID: res.body.orderID
+    //     });
+    //   }
+    // );
+  }
+
   //Searches Database for specific submitted order by OrderID
   findOrder (event) {
     event.preventDefault();
@@ -288,18 +328,15 @@ class App extends Component {
     let customerID = this.state.customerID;
 
     //(NOT WORKING) Rendering the shopping cart total
-    let cost = this.state.orderPlaced.map((orderPlaced, i) => {
-      return(
+    let cost =
         <Total
-          orderPlaced={orderPlaced}
+          totalPrice={this.totalPrice}
         />
-      );
-    }, this);
 
     //Injects the Thank You Component
     let thankYouMessage =
         <ThankYou
-          customerID={customerID}
+          customerID={this.customerID}
       />  
 
     //Main Component that render to page on refresh
@@ -417,7 +454,7 @@ class App extends Component {
                 onClick={this.refreshPage}/>
                 <tr className="total">
                   <td>Total</td>
-                  <td>${cost}</td>
+                  <td>{cost}</td>
                 </tr>
               </tfoot>   
             </table>
