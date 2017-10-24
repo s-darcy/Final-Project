@@ -7,8 +7,10 @@ class EditProducts extends Component {
         // var table = {width: '100%'};
         
         return (
-            <div>
+            <div className="editProductsWrapper">
                 <ToggleDisplay show={!this.props.handleEditToggle}>
+                </ToggleDisplay> 
+                <ToggleDisplay if={this.props.handleEditToggle} tag="section">
                 <table className="editProductsTable" >
                     <table className="innerTables headerName">
                         <thead>
@@ -42,11 +44,20 @@ class EditProducts extends Component {
                         </thead> 
                         <tbody>
                             <tr>
-                                {this.props.editProducts.map((editProduct, i) => <td key={i} className="cartItems">{editProduct.Quantity}</td>)}
+                                {this.props.editProducts.map((editProduct, i) => 
+                                    <td key={i} className="cartItems tdDelete1Item">
+                                        {editProduct.Quantity}
+                                        <button  value="Remove" className="delete1Item" onClick >
+                                            Remove
+                                        </button>    
+                                    </td>
+                                )}
                             </tr>
                         </tbody> 
-                    </table>      
+                        
+                    </table>
                 </table> 
+                   
                 </ToggleDisplay>            
             </div> 
         );

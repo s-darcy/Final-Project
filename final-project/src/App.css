@@ -106,7 +106,8 @@ select, label {
 
 .headerQty {
     left: 25%;
-    position: relative; 
+    position: relative;
+    width: 10%; 
 }
 
 .addProduct {
@@ -148,12 +149,20 @@ select, label {
 }
 
 .emptyCart, .deleteOrder {
+    height: 27px;
+    width: 20%;
+}
+
+.delete1Item {
+    height: 20px;
+    width: 60px;
+}
+
+.emptyCart, .deleteOrder {
     background-color: red;
     color: white;
     font-size: .7rem;
     text-align: center;
-    width: 20%;
-    height: 27px;
     margin: 2%;
     float: right;
 }
@@ -205,8 +214,30 @@ select, label {
     color: red;
 }
 
+.editProductsWrapper {
+    width: 100%;
+}
+
 .editProductsTable {
     float: left;
+    width: 60%;
+    margin: 3% 0%;
+}
+
+.tdDelete1Item {
+    display: inline-block;
+    width: 120px;
+    margin-top: -4%;
+}
+
+.delete1Item {
+    display: inline-block;
+    margin: -1% 16% 0%;
+    background-color: red;
+    color: white;
+    font-size: .5rem;
+    height: 12px;
+    line-height: 50%;
 }
 
 .thankYou {
