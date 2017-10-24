@@ -234,40 +234,27 @@ class App extends Component {
   //Submits an Order to the Orders table
   submitOrdertoDB (product, event) {
 
-    //Mapping over the quantity selected
+    //Quantity mapping to Object
     let quantitySelected = this.state.quantity.map((quantity)=>{
       return {"quantity" : quantity};
     });
-
-    //Mapping over all Product IDs selected
+    //Product IDs mapping to Object
     let orderProductID = this.state.orderProducts.map((orderProducts) => {
       return {"productID" : orderProducts.ProductID};
     });
-
-    //Lodash merges the two arrays 
+    //Lodash merges the two arrays into one Object
     let mergedQuantityProduct = _.merge(quantitySelected, orderProductID);
     console.log(mergedQuantityProduct);
 
-    let productIDQuantity = {
-    //   // "selectedProducts": [
-    //   //     {
-    //   //         "productId": orderProductID,
-    //   //         "quantity": quantitySelected
-    //   //     }
-    //   //   ]
-      "selectedProducts": [
-            {
-              mergedQuantityProduct
-            }
-          ]
-    };
-      console.log(productIDQuantity);
+    let requestObject = {
 
+      "selectedProducts" : mergedQuantityProduct
+
+    }
     superagent.post('http://localhost:5000/addPost')
-    .send(productIDQuantity)
+    .send(requestObject)
     .then(
       (res) => {
-        console.log(res.status, res.body.orderID);
         this.setState({
           customerID: res.body.orderID
         });

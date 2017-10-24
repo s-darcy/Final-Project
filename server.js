@@ -14,7 +14,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect((err) => {
-    if(!!err){
+    if(err){
         console.log("Error connecting to Shane's Database");
     } else {
         console.log("Connected to Shane's Database");
@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 router.get('/products', (req, res) => {
     let sql = `SELECT * FROM \`TapHandles\``;
     connection.query(sql, (err, result) => {
-        if(!!err){
+        if(err){
             return console.log('Error in the query');
         } else {
             res.json(result);
@@ -45,7 +45,7 @@ router.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     
     connection.query(sql, (err, result) => {
-        if(!!err){
+        if(err){
             return res.send();
         }
         return res.json(result);
@@ -62,8 +62,8 @@ router.post('/addpost', (req, res) => {
     VALUES (NOW())`;
 
     connection.query(insertOrderQuery, (err, result) => {
-        if(!!err) {
-            return res.send();
+        if(err) {
+            throw err;
         }
         let selectedProducts = req.body.selectedProducts;
         let orderID = result.insertId;
@@ -76,12 +76,12 @@ router.post('/addpost', (req, res) => {
             if (key != 0) {
                 insertProductsQuery += `, `;
             }
-            insertProductsQuery += `(${orderID}, ${selectedProducts[key].productId}, ${selectedProducts[key].quantity})`;
+            insertProductsQuery += `(${orderID}, ${selectedProducts[key].productID}, ${selectedProducts[key].quantity})`;
         }
 
         connection.query(insertProductsQuery, (err, result) => {
-            if(!!err){
-                return res.send();
+            if(err){
+                throw err;
             }
             // console.log(result);
             res.json({
@@ -93,11 +93,11 @@ router.post('/addpost', (req, res) => {
 });
 
 //Update an order
-router.get('/updatepost/:id', (req, res) => {
+router.put('/updatepost/:id', (req, res) => {
     let newQuantity = 'Updated Quantity';
     let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
-        if(!!err){
+        if(err){
             return res.send();
         }
         res.json(result);
@@ -110,7 +110,7 @@ router.get('/updatepost/:id', (req, res) => {
 router.delete('/deletepost/:id', (req, res) => {
     let sql = `DELETE FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
-        if(!!err){
+        if(err){
             return console.log('We could not find that Order ID');
         } else {    
             console.log(result);

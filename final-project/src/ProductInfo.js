@@ -4,7 +4,7 @@ class ProductInfo extends Component {
 
   render(){
     let isQuantitySelected = this.props.quantityHandled;
-    console.log(isQuantitySelected);
+    // console.log(isQuantitySelected);
 
     return (
       <div className="individualContainer" key={this.props.product.ProductID}>
