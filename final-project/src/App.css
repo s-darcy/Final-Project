@@ -164,12 +164,12 @@ select, label {
     float: right;
 }
 
-.submitCart, .find, .ok {
+.submitCart, .find, .ok, .saveChanges {
     background-color: #209205;
     float: left;
 }
 
-.submitCart, .find, .ok, .emptyCart, .deleteOrder  {
+.submitCart, .find, .ok, .emptyCart, .deleteOrder, .saveChanges {
     color: white;
     font-size: .7rem;
     text-align: center;
@@ -251,6 +251,10 @@ select, label {
 
 .edit1Item {
     background-color: blue;
+}
+
+.newProductToSelect {
+    width: 100%;
 }
 
 .thankYou {

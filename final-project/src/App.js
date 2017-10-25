@@ -7,6 +7,7 @@ import Total from './Total';
 import ThankYou from './ThankYou';
 import OrderCheck from './OrderCheck';
 import EditProducts from './EditProducts';
+import SelectNewProduct from './SelectNewProduct';
 
 class App extends Component {
 
@@ -265,7 +266,7 @@ class App extends Component {
     //Toggles the newly selected products
     handleChangeProductToggle(){
       this.setState({
-        productToggle : !this.state.sproductToggle
+        productToggle : !this.state.productToggle
       });
     }
 
@@ -478,6 +479,7 @@ class App extends Component {
           productToggle={productToggle}
           changeProduct={this.changeProduct}
           availableProducts={this.state.availableProducts}
+          handleQuantity={this.props.handleQuantity}
           handleEditToggle={this.handleEditToggle}
           handleChangeProductToggle={this.handleChangeProductToggle}
         /> 

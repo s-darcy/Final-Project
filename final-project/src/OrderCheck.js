@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ToggleDisplay from 'react-toggle-display';
 import EditProducts from './EditProducts';
+import SelectNewProduct from './SelectNewProduct';
 
 class OrderCheck extends Component {
 
@@ -16,6 +17,7 @@ class OrderCheck extends Component {
                 removeSelectedItem={this.props.removeSelectedItem}
                 changeProduct={this.props.changeProduct}
                 availableProducts={this.props.availableProducts}
+                handleQuantity={this.props.handleQuantity}
             /> 
 
       return (
