@@ -126,7 +126,7 @@ router.put('/updatepost/:id', (req, res) => {
     });
 });
 
-//Delete an order 
+//Delete an entire order 
 router.delete('/deletepost/:id', (req, res) => {
     let sql = `DELETE FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {
@@ -135,6 +135,19 @@ router.delete('/deletepost/:id', (req, res) => {
         } else {    
             console.log(result);
             res.send('Post deleted...');
+        }
+    });
+});
+
+//Delete just one Product from the Selected Products
+router.delete('/removeproduct/:id', (req, res) => {
+    let sql = `DELETE FROM BreweryTapHandles.SelectedProducts WHERE SelectedProductsID = ${req.params.id}`;
+    connection.query(sql, (err, result) => {
+        if(err){
+            return console.log('We could not find that Order ID');
+        } else {    
+            console.log(result);
+            res.send('This product has been deleted...');
         }
     });
 });

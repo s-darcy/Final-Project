@@ -60,6 +60,7 @@ class App extends Component {
     this.pullSelectedProducts= this.pullSelectedProducts.bind(this);
     this.editOrder = this.editOrder.bind(this);
     this.handleEditRemove = this.handleEditRemove.bind(this);
+    this.removeSelectedItem = this.removeSelectedItem.bind(this);
     
     this.fetchProducts();
     // this.submitOrderToServer();
@@ -71,16 +72,12 @@ class App extends Component {
 
     //CustomerID
     let customerID = this.state.customerID;
-
     //Prices
     let prices = this.state.price.slice();
-
     //ProductIDs  
     let productID = this.state.selectedProducts.slice();
-
     //Quantity
     let quantity = this.state.quantity.slice();
-
     this.state.orderPlaced.push([customerID, quantity, prices, productID]);
     this.setState({
       orderPlaced: [customerID, quantity, prices, productID]
@@ -201,7 +198,7 @@ class App extends Component {
     let orginalArray = this.state.editProducts.slice();
     console.log(orginalArray);
 
-    //(NOT WORKING) target the editProducts table
+    //Target the editProducts table
     let curEditProduct = orginalArray.find((original) => {
       if (original.SelectedProductsID == product){
         return original.SelectedProductsID;
@@ -209,12 +206,10 @@ class App extends Component {
     });
     console.log(curEditProduct);
 
-    //use lodash _.pull to remove certain object in array
+    //Lodash to remove certain object in array
     let newArray = _.pull(orginalArray, curEditProduct)
     console.log(newArray);
 
-    //pull down current state and find and remove
-    //then re-save state
     this.state.editProducts.push(newArray);
     this.setState({
       editProducts : newArray 
@@ -348,22 +343,22 @@ class App extends Component {
     );
   }
 
-  removeSelectedItem (event) {
+  //Removes one Item from SelectedProducts Table
+  removeSelectedItem (SelectedProductsID, event) {
     event.preventDefault();
-    // let searchedID = this.state.searchIDText;
+    // let removeProduct = this.state.editProducts.SelectedProductsID;
+    // console.log(removeProduct);
 
-    // superagent.get(`http://localhost:5000/removeproduct/${searchedID}`)
-    // .send(searchedID)
-    // .then(
-    //   (res) => {
-    //     console.log(res.status, res.body);
+    superagent.delete(`http://localhost:5000/removeproduct/${SelectedProductsID}`)
+    .send(SelectedProductsID)
+    .then(
+      (res) => {
+        console.log(res.status, res.body);
 
-    //     this.state.editProducts.push(res.body);
-    //     this.setState({
-    //       editProducts : res.body
-    //     });
-    //   }
-    // );
+        this.state.editProducts.push(res.body);
+        console.log(res.body);
+      }
+    );
   }
 
   //Edits an Order in DB
@@ -437,6 +432,7 @@ class App extends Component {
         notifyingDeletion={this.notifyingDeletion}
         editProducts={this.state.editProducts}
         handleEditRemove={this.handleEditRemove}
+        removeSelectedItem={this.removeSelectedItem}
         show={show}
       /> 
     );

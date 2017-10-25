@@ -51,6 +51,7 @@ class EditProducts extends Component {
                                             value={editProduct.SelectedProductsID} 
                                             className="delete1Item" 
                                             onClick={(event)=>{
+                                                this.props.removeSelectedItem(editProduct.SelectedProductsID, event),
                                                 this.props.handleEditRemove(editProduct.SelectedProductsID, event)
                                         }}>
                                         Remove</button>    
