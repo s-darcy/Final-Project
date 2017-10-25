@@ -76,6 +76,8 @@ router.get('/selectedproducts/:id', (req, res) => {
 });
 
 //Insert an order 
+//1. Inserts an order into the Order Table
+//2. With the returned OrderID, Inserts a new Order into the Selected Products Table
 router.post('/addpost', (req, res) => {
     let insertOrderQuery = `INSERT INTO
     BreweryTapHandles.Order (DateAdded)
@@ -112,17 +114,45 @@ router.post('/addpost', (req, res) => {
     });
 });
 
-//Update an order
+// //Update an order the quantity 
+// router.put('/updatepost/:id', (req, res) => {
+//     let newQuantity = 'Updated Quantity';
+//     let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE OrderID = ${req.params.id}`;
+//     connection.query(sql, (err, result) => {
+//         if(err){
+//             return res.send();
+//         }
+//         res.json(result);
+//         console.log(result);
+//         res.send('Post updated...');
+//     });
+// });
+
+//(NOT WORKING YET)Update an order
 router.put('/updatepost/:id', (req, res) => {
-    let newQuantity = 'Updated Quantity';
-    let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE OrderID = ${req.params.id}`;
-    connection.query(sql, (err, result) => {
-        if(err){
-            return res.send();
+    
+    let productsToUpdate = req.body.productsToUpdate;
+
+    let insertUpdatedProducts = 
+    `UPDATE BreweryTapHandles.SelectedProducts
+    SET (ProductID, Quantity) 
+    WHERE SelectedProductsID = ${req.params.id}`;
+
+    for (let key in productsToUpdate) {
+        if (key != 0) {
+            insertUpdatedProducts += `, `;
         }
-        res.json(result);
+        insertUpdatedProducts += `(${productsToUpdate[key].productID}, ${productsToUpdate[key].quantity})`;
+    }
+
+    connection.query(insertUpdatedProducts, (err, result) => {
+        if(err){
+            throw err;;
+        }
         console.log(result);
-        res.send('Post updated...');
+        res.json({
+            message: 'Post updated...'
+        });
     });
 });
 

@@ -19,6 +19,7 @@ class App extends Component {
       availableProducts : [],
       orderPlaced : [],
       selectedProducts : [],
+      insertUpdatedProducts :[],
       orderProducts : [],
       editProducts : [],
       previousOrder : [],
@@ -310,9 +311,7 @@ class App extends Component {
     console.log(mergedQuantityProduct);
 
     let requestObject = {
-
       "selectedProducts" : mergedQuantityProduct
-
     }
     superagent.post('http://localhost:5000/addPost')
     .send(requestObject)
@@ -444,47 +443,47 @@ class App extends Component {
     //Main Component that render to page on refresh
     let eachProduct = 
       this.state.availableProducts.map((availableProducts, i) => {
-      return (
-        <ProductInfo
-          key={i}
-          product={availableProducts}
-          quantity={this.quantity}
-          quantityHandled={this.quantityHandled}
-          value={this.state.value}
-          handleQuantity={this.handleQuantity}
-          handleProducts={this.handleProducts}
-          submitQuantity={this.submitQuantity}
-          submitOrderID={this.submitOrderID}
-          submitOrder={this.submitOrder}
-        /> 
-      );
-    }, this);
+        return (
+          <ProductInfo
+            key={i}
+            product={availableProducts}
+            quantity={this.quantity}
+            quantityHandled={this.quantityHandled}
+            value={this.state.value}
+            handleQuantity={this.handleQuantity}
+            handleProducts={this.handleProducts}
+            submitQuantity={this.submitQuantity}
+            submitOrderID={this.submitOrderID}
+            submitOrder={this.submitOrder}
+          /> 
+        );
+      }, this);
     
     //After Order ID Requested for DB, rendering Delete Option to the page
     let foundPreviousOrder = 
       this.state.previousOrder.map((previousOrder, i) => {
-      return (
-        <OrderCheck
-          previousOrder={previousOrder}
-          refreshPage={this.refreshPage}
-          deleteOrder={this.deleteOrder}
-          pullSelectedProducts={this.pullSelectedProducts}
-          editOrder={this.editOrder}
-          notifyingDeletion={this.notifyingDeletion}
-          editProducts={this.state.editProducts}
-          handleEditRemove={this.handleEditRemove}
-          removeSelectedItem={this.removeSelectedItem}
-          show={show}
-          editToggle={editToggle}
-          productToggle={productToggle}
-          changeProduct={this.changeProduct}
-          availableProducts={this.state.availableProducts}
-          handleQuantity={this.props.handleQuantity}
-          handleEditToggle={this.handleEditToggle}
-          handleChangeProductToggle={this.handleChangeProductToggle}
-        /> 
-      );
-    }, this);
+        return (
+          <OrderCheck
+            previousOrder={previousOrder}
+            refreshPage={this.refreshPage}
+            deleteOrder={this.deleteOrder}
+            pullSelectedProducts={this.pullSelectedProducts}
+            editOrder={this.editOrder}
+            notifyingDeletion={this.notifyingDeletion}
+            editProducts={this.state.editProducts}
+            handleEditRemove={this.handleEditRemove}
+            removeSelectedItem={this.removeSelectedItem}
+            show={show}
+            editToggle={editToggle}
+            productToggle={productToggle}
+            changeProduct={this.changeProduct}
+            availableProducts={this.state.availableProducts}
+            handleQuantity={this.props.handleQuantity}
+            handleEditToggle={this.handleEditToggle}
+            handleChangeProductToggle={this.handleChangeProductToggle}
+          /> 
+        );
+      }, this);
 
     return (
       <div className="App">

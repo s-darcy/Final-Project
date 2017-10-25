@@ -18,9 +18,9 @@ class SelectNewProduct extends Component {
                         <tr>
                             <td className="cartItems">
                                 <select className="newProductToSelect" value={this.props.value} onChange={this.props.handleQuantity}>
-                                    {this.props.availableProducts.map((availableProducts, i) => {
-                                        <option value={this.props.availableProducts.ProductID}>
-                                            {this.props.availableProducts.Name}
+                                    {this.props.availableProducts.map((product) => {
+                                        <option name={product.Name} value={product.ProductID}>
+                                            {product.Name}
                                         </option>
                                     })}
                                 </select>
