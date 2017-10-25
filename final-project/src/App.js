@@ -37,11 +37,14 @@ class App extends Component {
       editQuantity : [],
       quantityHandled : [],
       quantityEditHandled : [],
+      editSelectedProduct : [],
+      editProductHandled : [],
       idText : [],
       value : '',
       editValue : '',
       searchIDText : '',
       totalPrice : '',
+      productName : '',
 
       title: 'Craft Beer Tap Handle Store'
     };
@@ -203,11 +206,25 @@ class App extends Component {
    handleEditProduct (event) {
     event.preventDefault();
 
+    let newProductSelected = event.target.value;
+    console.log(newProductSelected );
+
+    this.state.editProductHandled.push(newProductSelected);
+    this.setState({
+      value: newProductSelected
+    });
   } 
   
   //Quantity that renders in the shopping cart
   submitEditProduct (event) {
     event.preventDefault();
+    let submittedNewProduct = this.state.value;
+    console.log(submittedNewProduct);
+
+    this.state.editSelectedProduct.push(submittedNewProduct);
+    this.setState({
+      value: submittedNewProduct
+    });
 
   }
 
@@ -541,6 +558,7 @@ class App extends Component {
             value={this.state.value}
             submitEditProduct={this.submitEditProduct}
             handleEditProduct={this.handleEditProduct}
+            productName={this.props.productName}
           /> 
         );
       }, this);

@@ -17,6 +17,7 @@ class EditProducts extends Component {
                 value={this.props.value}
                 submitEditProduct={this.props.submitEditProduct}
                 handleEditProduct={this.props.handleEditProduct}
+                productName={this.props.productName}   
             /> 
         
         return (
