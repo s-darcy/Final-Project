@@ -48,21 +48,18 @@ class EditProducts extends Component {
                                     <td key={i} className="cartItems tdDelete1Item">
                                         {editProduct.Quantity}
                                         <button 
-                                            value={this.props.editProducts.SelectedProductsID} 
+                                            value={editProduct.SelectedProductsID} 
                                             className="delete1Item" 
                                             onClick={(event)=>{
-                                                this.props.handleEditRemove(this.props.editProducts.SelectedProductsID, event)
+                                                this.props.handleEditRemove(editProduct.SelectedProductsID, event)
                                         }}>
-                                            Remove
-                                        </button>    
+                                        Remove</button>    
                                     </td>
                                 )}
                             </tr>
                         </tbody> 
-                        
                     </table>
                 </table> 
-                   
                 </ToggleDisplay>            
             </div> 
         );

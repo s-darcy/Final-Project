@@ -197,23 +197,22 @@ class App extends Component {
   //Removes the one products from state and uploads a new array
   handleEditRemove(product, event) {
     event.preventDefault();
-    let itemToRemove = event.target.value;
-    console.log(itemToRemove);
-
-    //(NOT WORKING) target the editProducts table
-    let curEditProduct = this.state.editProducts.map((product)=>{
-      if (itemToRemove === product.SelectedProductsID){
-        return product;
-       }  
-    });
-    console.log(curEditProduct);
 
     let orginalArray = this.state.editProducts.slice();
     console.log(orginalArray);
+
+    //(NOT WORKING) target the editProducts table
+    let curEditProduct = orginalArray.find((original) => {
+      if (original.SelectedProductsID == product){
+        return original.SelectedProductsID;
+      };
+    });
+    console.log(curEditProduct);
+
     //use lodash _.pull to remove certain object in array
-    
     let newArray = _.pull(orginalArray, curEditProduct)
     console.log(newArray);
+
     //pull down current state and find and remove
     //then re-save state
     this.state.editProducts.push(newArray);
