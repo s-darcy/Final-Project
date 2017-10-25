@@ -28,6 +28,7 @@ class App extends Component {
       thankYou : false,
       show : false, //deleted Message
       editToggle : false,
+      productToggle : false,
       products : [],
       price : [],
       quantity : [],
@@ -50,6 +51,8 @@ class App extends Component {
     this.submitOrdertoDB = this.submitOrdertoDB.bind(this);
     this.storeOrderDetails = this.storeOrderDetails.bind(this);
     this.handleThankYou = this.handleThankYou.bind(this);
+    this.handleEditToggle = this.handleEditToggle.bind(this);
+    this.handleChangeProductToggle = this.handleChangeProductToggle.bind(this);
     this.handleSearchIDTextChange = this.handleSearchIDTextChange.bind(this);
     this.handleSearchIDTextSubmit = this.handleSearchIDTextSubmit.bind(this);
     this.findOrder = this.findOrder.bind(this);
@@ -59,10 +62,14 @@ class App extends Component {
     this.editOrder = this.editOrder.bind(this);
     this.handleEditRemove = this.handleEditRemove.bind(this);
     this.removeSelectedItem = this.removeSelectedItem.bind(this);
+    this.changeProduct = this.changeProduct.bind(this);
     
     this.fetchProducts();
-    // this.submitOrderToServer();
-  }
+  } // End of Consturctor
+
+  //----------------------------------------------------------//
+  //------------------React Functionality--------------------//
+  //--------------------------------------------------------//
 
   //This function stores the whole order details (CustomerID, Quantity, Prices, ProductID)
   storeOrderDetails (event) {
@@ -185,7 +192,9 @@ class App extends Component {
     window.location.reload();
   } 
 
-  itemToRemove(event) {
+  //After Edit clicked, this function will add a drop down 
+  //to allow the ability to select new product and new quantity
+  changeProduct(event){
 
   }
 
@@ -214,27 +223,6 @@ class App extends Component {
     });
   }
 
-  //Thank You Message State
-  handleThankYou() {
-    this.setState({
-      thankYou : !this.state.thankYou
-    });
-  }
-
-    //Edit Table State
-    handleEditToggle(event) {
-      this.setState({
-        editToggle: !this.state.editToggle
-      });
-    }
-
-  //Deleted Order has text added stating "This Order is now deleted"
-  notifyingDeletion(event) {
-    this.setState({
-      show : !this.state.show
-    });
-  }
-
   //Handles the Changing Input text into the Search fields
   handleSearchIDTextChange(event) {
     const newSearch = event.target.value;
@@ -256,7 +244,55 @@ class App extends Component {
     IDInput.reset();
   }
 
-  //CRUD Functionality//  
+  //-------------------------------------------------------------//
+  //-----------------Toggle Display Functionality---------------//
+  //-----------------------------------------------------------//
+
+  //Thank You Message State
+  handleThankYou() {
+    this.setState({
+      thankYou : !this.state.thankYou
+    });
+  }
+
+    //Edit Table State
+    handleEditToggle() {
+      this.setState({
+        editToggle : !this.state.editToggle
+      });
+    }
+
+    //Toggles the newly selected products
+    handleChangeProductToggle(){
+      this.setState({
+        productToggle : !this.state.sproductToggle
+      });
+    }
+
+    //Deleted Order has text added stating "This Order is now deleted"
+    notifyingDeletion(event) {
+      this.setState({
+        show : !this.state.show
+      });
+    }
+
+  //----------------------------------------------------------//
+  //-----------------CRUD/Server Functionality---------------//
+  //--------------------------------------------------------//
+
+  //Pulls in all of our products on initial render
+  fetchProducts () {
+    superagent.get('http://localhost:5000/products')
+    .then((res) => {
+      this.setState({
+        availableProducts: res.body
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }; 
+
   //Submits an Order to the Orders table
   submitOrdertoDB (product, event) {
 
@@ -374,6 +410,10 @@ class App extends Component {
     // );
   }
 
+  //----------------------------------------------------------//
+  //-----------------Render Page Functionality---------------//
+  //--------------------------------------------------------//
+
 //This is the <App /> Render
   render() {
     var table = {width: '100%'};
@@ -385,6 +425,8 @@ class App extends Component {
     let customerID = this.state.customerID;
     let totalPrice = this.state.totalPrice;
     let show = this.state.show;
+    let editToggle = this.state.editToggle;
+    let productToggle = this.state.productToggle;
 
     //Renders the shopping cart total
     let cost =
@@ -419,22 +461,28 @@ class App extends Component {
     
     //After Order ID Requested for DB, rendering Delete Option to the page
     let foundPreviousOrder = 
-    this.state.previousOrder.map((previousOrder, i) => {
-    return (
-      <OrderCheck
-        previousOrder={previousOrder}
-        refreshPage={this.refreshPage}
-        deleteOrder={this.deleteOrder}
-        pullSelectedProducts={this.pullSelectedProducts}
-        editOrder={this.editOrder}
-        notifyingDeletion={this.notifyingDeletion}
-        editProducts={this.state.editProducts}
-        handleEditRemove={this.handleEditRemove}
-        removeSelectedItem={this.removeSelectedItem}
-        show={show}
-      /> 
-    );
-  }, this);
+      this.state.previousOrder.map((previousOrder, i) => {
+      return (
+        <OrderCheck
+          previousOrder={previousOrder}
+          refreshPage={this.refreshPage}
+          deleteOrder={this.deleteOrder}
+          pullSelectedProducts={this.pullSelectedProducts}
+          editOrder={this.editOrder}
+          notifyingDeletion={this.notifyingDeletion}
+          editProducts={this.state.editProducts}
+          handleEditRemove={this.handleEditRemove}
+          removeSelectedItem={this.removeSelectedItem}
+          show={show}
+          editToggle={editToggle}
+          productToggle={productToggle}
+          changeProduct={this.changeProduct}
+          availableProducts={this.state.availableProducts}
+          handleEditToggle={this.handleEditToggle}
+          handleChangeProductToggle={this.handleChangeProductToggle}
+        /> 
+      );
+    }, this);
 
     return (
       <div className="App">
@@ -532,19 +580,6 @@ class App extends Component {
       </div>   
       )
     }
-
-  //Pulls in all of our products on initial render
-  fetchProducts () {
-    superagent.get('http://localhost:5000/products')
-    .then((res) => {
-      this.setState({
-        availableProducts: res.body
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  };
 
 } //Closes the app
 

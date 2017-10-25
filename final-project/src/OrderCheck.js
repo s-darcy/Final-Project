@@ -9,9 +9,13 @@ class OrderCheck extends Component {
         let retrievedProduct = 
             <EditProducts
                 editProducts={this.props.editProducts}
-                handleEditToggle={this.props.handleEditToggle}
+                handleChangeProductToggle={this.props.handleChangeProductToggle}
+                editToggle={this.props.editToggle}
+                productToggle={this.props.productToggle}
                 handleEditRemove={this.props.handleEditRemove}
                 removeSelectedItem={this.props.removeSelectedItem}
+                changeProduct={this.props.changeProduct}
+                availableProducts={this.props.availableProducts}
             /> 
 
       return (
@@ -31,8 +35,10 @@ class OrderCheck extends Component {
                 className="ok" 
                 type="button" 
                 value="Edit Order" 
-                onClick={this.props.pullSelectedProducts}
-            />
+                onClick={(event) => {
+                    this.props.pullSelectedProducts(event),
+                    this.props.handleEditToggle(event)
+                }}/>
             <button 
                 className="deleteOrder"
                 onClick={(event) => {
@@ -41,7 +47,7 @@ class OrderCheck extends Component {
             }}>
             Delete Order</button>
             <div>
-                {retrievedProduct}
+                {this.props.editToggle && retrievedProduct}
             </div>    
         </div> 
       );
