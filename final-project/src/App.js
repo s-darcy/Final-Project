@@ -3,9 +3,7 @@ import './App.css';
 import superagent from 'superagent';
 import _ from 'lodash';
 import ProductInfo from './ProductInfo';
-import ShoppingCart from './ShoppingCart';
 import Total from './Total'; 
-import SearchOrder from './SearchOrder';
 import ThankYou from './ThankYou';
 import OrderCheck from './OrderCheck';
 import EditProducts from './EditProducts';
@@ -397,7 +395,7 @@ class App extends Component {
     //Injects the Thank You Component
     let thankYouMessage =
         <ThankYou
-          customerID={this.customerID}
+          customerID={this.state.customerID}
       />  
 
     //Main Component that render to page on refresh
@@ -511,10 +509,7 @@ class App extends Component {
                 this.submitOrdertoDB(event),
                 this.storeOrderDetails(event)
               }}>
-                <tr>    
-                  <td>Place Order</td>
-                </tr>
-              </button>   
+              Place Order </button>   
               <input 
                 type="button" 
                 value="Clear Cart"

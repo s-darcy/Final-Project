@@ -11,8 +11,8 @@ class EditProducts extends Component {
                 <ToggleDisplay show={!this.props.handleEditToggle}>
                 </ToggleDisplay> 
                 <ToggleDisplay if={this.props.handleEditToggle} tag="section">
-                <table className="editProductsTable" >
-                    <table className="innerTables headerName">
+                <table className="editProductsTable">
+                    <table className="innerTables headerNameMobile headerName">
                         <thead>
                             <tr>
                                 <th>Tap Handle Name</th>
@@ -24,7 +24,7 @@ class EditProducts extends Component {
                         </tr>
                     </tbody>
                     </table>
-                    <table className="innerTables headerPrice">
+                    <table className="innerTables headerPriceMobile  headerPrice">
                         <thead>
                             <tr>
                                 <th>Price</th>
@@ -36,7 +36,7 @@ class EditProducts extends Component {
                             </tr>
                         </tbody>   
                     </table>
-                    <table className="innerTables headerQty">
+                    <table className="innerTables headerQtyMobile headerQty">
                         <thead>
                             <tr>
                                 <th>Qty</th>
@@ -47,6 +47,9 @@ class EditProducts extends Component {
                                 {this.props.editProducts.map((editProduct, i) => 
                                     <td key={i} className="cartItems tdDelete1Item">
                                         {editProduct.Quantity}
+                                        <button className="edit1Item">
+                                            Edit
+                                        </button>  
                                         <button 
                                             value={editProduct.SelectedProductsID} 
                                             className="delete1Item" 
@@ -54,7 +57,7 @@ class EditProducts extends Component {
                                                 this.props.removeSelectedItem(editProduct.SelectedProductsID, event),
                                                 this.props.handleEditRemove(editProduct.SelectedProductsID, event)
                                         }}>
-                                        Remove</button>    
+                                        Remove</button>
                                     </td>
                                 )}
                             </tr>

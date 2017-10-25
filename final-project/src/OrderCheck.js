@@ -19,7 +19,7 @@ class OrderCheck extends Component {
         //Retrieved the previous Order ID and Date back from the DB to display to user
         //Offer to let the user delete an order from DB
         <div>
-            <p>Previous Order</p>
+            <p className="previousOrder">Previous Order</p>
             <p>Your Order ID: <span className="orderID">{this.props.previousOrder.OrderID}</span></p>
             <ToggleDisplay show={!this.props.show}>
                 <p>Your Order Date: <span className="orderDate">{this.props.previousOrder.DateAdded}</span></p>

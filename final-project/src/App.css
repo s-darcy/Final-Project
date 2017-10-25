@@ -60,8 +60,7 @@ select, label {
     border-color: #BBBABA;
     display: grid;
     grid-template-columns: 5fr;
-    width: 39%;
-    min-width: 430px;
+    width: 470px;
     margin: 0% auto 2%;
     text-align: center;
  }
@@ -80,32 +79,38 @@ select, label {
 .shoppingCart {
     float: right;
     display: block;
-    min-width: 430px;
+    width: 470px;
     border-style: solid;
     border-width: 1px;
     border-color: #BBBABA;
     margin-right: 2%;
 }
 
-.shoppingCart h3 {
+.shoppingCart h3{
     margin: auto;
     width: 100%;
     text-align: center;
     margin-bottom: 3%;
 }
 
+.previousOrder {
+    font-size: 1.75rem;
+    margin: 4% auto 0%;
+    font-weight: 600;
+}
+
 .headerName {
-    left: 3%;
+    left: 0%;
     position: relative; 
 }
 
 .headerPrice {
-    left: 20%;
+    left: 5%;
     position: relative; 
 }
 
 .headerQty {
-    left: 25%;
+    left: 11%;
     position: relative;
     width: 10%; 
 }
@@ -131,6 +136,7 @@ select, label {
     color: #209205;
     display: block;
     text-align: left;
+    height: 19px;
 }
 
 .products {
@@ -153,28 +159,23 @@ select, label {
     width: 20%;
 }
 
-.delete1Item {
-    height: 20px;
-    width: 60px;
-}
-
 .emptyCart, .deleteOrder {
     background-color: red;
-    color: white;
-    font-size: .7rem;
-    text-align: center;
-    margin: 2%;
     float: right;
 }
 
 .submitCart, .find, .ok {
     background-color: #209205;
+    float: left;
+}
+
+.submitCart, .find, .ok, .emptyCart, .deleteOrder  {
     color: white;
     font-size: .7rem;
     text-align: center;
     width: 20%;
     margin: 2%;
-    float: left;
+    height: 21px;
 }
 
 .total {
@@ -220,24 +221,36 @@ select, label {
 
 .editProductsTable {
     float: left;
-    width: 60%;
+    max-width: 77%;
     margin: 3% 0%;
 }
 
 .tdDelete1Item {
     display: inline-block;
-    width: 120px;
-    margin-top: -4%;
+    width: 157px;
 }
 
-.delete1Item {
+.delete1Item, .edit1Item {
     display: inline-block;
-    margin: -1% 16% 0%;
-    background-color: red;
+    margin: -1% 4% 0%;
     color: white;
     font-size: .5rem;
     height: 12px;
     line-height: 50%;
+}
+
+.delete1Item, .edit1Item {
+    height: 15px;
+    width: 47px;
+    display: inline-block;
+}
+
+.delete1Item {
+    background-color: red;
+}
+
+.edit1Item {
+    background-color: blue;
 }
 
 .thankYou {
@@ -255,8 +268,48 @@ select, label {
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
 }
-
-@media only screen and (max-device-width: 568px){
+@media only screen and (max-width: 414px){
+    h1 {
+        font-size: 3rem;
+        max-width: 97%;
+        display: block; 
+        margin-left: .5%;
+    }
+    .products {
+        display: block;
+        grid-template-columns: 5fr;
+        margin: 3% 0%;
+    }
+    .shoppingCart, .searchOrder  {
+        float: none;
+        display: block;
+        margin: 0;
+        width: 375px;
+    } 
+    .individualContainer {
+        margin: 0% 2% 10%;
+    }   
+    .cartItems {
+        font-size: .58rem;
+    }
+    .headerNameMobile {
+        left: -8%;
+    }
+    .headerPriceMobile {
+        left: -1%;
+    } 
+    .headerQtyMobile {
+        left: 4%;
+    }
+    .submitCart, .find, .ok, .emptyCart, .deleteOrder  {
+        font-size: .58rem;
+    }     
+    footer {
+        margin: 8% auto;
+        width: 80%;
+     }
+}
+@media only screen and (min-width: 415px) and (max-width: 568px){
     body {
         width: 97%;
     }
@@ -264,18 +317,37 @@ select, label {
         font-size: 3rem;
         max-width: 97%;
         display: block; 
-        margin-left: 3%;
+        margin-left: .5%;
     }
     .products {
         display: block;
         grid-template-columns: 5fr;
         margin: 3% 0%;
     }
-    .shoppingCart {
+    .shoppingCart, .searchOrder  {
         float: none;
-        min-width: 430px;
-        max-width: 40%
-    }    
+        display: block;
+        margin: 0;
+        width: auto;
+    } 
+    .individualContainer {
+        margin: 0% 2% 10%;
+    }   
+    .cartItems {
+        font-size: .58rem;
+    }
+    .headerNameMobile {
+        left: -8%;
+    }
+    .headerPriceMobile {
+        left: -1%;
+    } 
+    .headerQtyMobile {
+        left: 6%;
+    }
+    .submitCart, .find, .ok, .emptyCart, .deleteOrder  {
+        font-size: .58rem;
+    }     
     footer {
         margin: 8% auto;
         width: 80%;
@@ -300,9 +372,8 @@ select, label {
     }
     .shoppingCart {
         float: none;
-        max-width: 30%;
-        min-width: 430px;
         margin: auto;
+        display: block;
     }
     footer {
         margin: 10% auto;
@@ -310,16 +381,15 @@ select, label {
      }  
 }
 
-@media screen and (max-width: 799px){
+@media screen and (min-width: 568px) and (max-width: 799px){
     .products, .shoppingCart {
         display: grid;
         grid-template-columns: 5fr;
     }
     .shoppingCart {
-        max-width: 40%;
-        min-width: 430px;
         float: none;
         margin: auto;
+        display: block;
     }
 }
 
