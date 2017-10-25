@@ -11,6 +11,10 @@ class EditProducts extends Component {
             <SelectNewProduct
                 availableProducts={this.props.availableProducts}
                 handleQuantity={this.props.handleQuantity}
+                submitEditQuantity={this.props.submitEditQuantity}
+                handleEditQuantity={this.props.handleEditQuantity}
+                editValue={this.props.editValue}
+                value={this.props.value}
             /> 
         
         return (

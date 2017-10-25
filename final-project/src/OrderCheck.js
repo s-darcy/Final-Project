@@ -18,6 +18,10 @@ class OrderCheck extends Component {
                 changeProduct={this.props.changeProduct}
                 availableProducts={this.props.availableProducts}
                 handleQuantity={this.props.handleQuantity}
+                submitEditQuantity={this.props.submitEditQuantity}
+                handleEditQuantity={this.props.handleEditQuantity}
+                editValue={this.props.editValue}
+                value={this.props.value}
             /> 
 
       return (

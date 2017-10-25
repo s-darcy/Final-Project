@@ -17,11 +17,13 @@ class SelectNewProduct extends Component {
                     <tbody>       
                         <tr>
                             <td className="cartItems">
-                                <select className="newProductToSelect" value={this.props.value} onChange={this.props.handleQuantity}>
-                                    {this.props.availableProducts.map((product) => {
-                                        <option name={product.Name} value={product.ProductID}>
+                                <select className="newProductToSelect" onChange={this.props.handleQuantity}>
+                                    {this.props.availableProducts.map((product, i) => {
+                                    
+                                        <option key={i} name={product.Name} value={product.ProductID}>
                                             {product.Name}
                                         </option>
+                                    
                                     })}
                                 </select>
                             </td>
@@ -37,13 +39,17 @@ class SelectNewProduct extends Component {
                     <tbody>
                         <tr>
                             <td >
-                                <select className="newProductToSelect" value={this.props.value} onChange={this.props.handleQuantity}>
-                                    <option value="0">--</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                <select 
+                                    className="newProductToSelect"
+                                    value={this.props.value} 
+                                    id="quantitySelected" 
+                                    onChange={this.props.handleEditQuantity}>
+                                        <option value="0">--</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                 </select>
                             </td>
                         </tr>
@@ -58,7 +64,12 @@ class SelectNewProduct extends Component {
                     <tbody>
                         <tr>
                             <td >
-                                <button className="saveChanges newProductToSelect">Save</button>
+                                <button 
+                                    className="saveChanges newProductToSelect"
+                                    onClick={(event) => {
+                                        this.props.submitEditQuantity(event)
+                                    }}
+                                >Save</button>
                             </td>
                         </tr>
                     </tbody>   

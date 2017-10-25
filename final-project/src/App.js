@@ -34,9 +34,12 @@ class App extends Component {
       products : [],
       price : [],
       quantity : [],
+      editQuantity : [],
       quantityHandled : [],
+      quantityEditHandled : [],
       idText : [],
       value : '',
+      editValue : '',
       searchIDText : '',
       totalPrice : '',
 
@@ -65,6 +68,7 @@ class App extends Component {
     this.handleEditRemove = this.handleEditRemove.bind(this);
     this.removeSelectedItem = this.removeSelectedItem.bind(this);
     this.changeProduct = this.changeProduct.bind(this);
+    this.handleEditQuantity = this.handleEditQuantity.bind(this);
     
     this.fetchProducts();
   } // End of Consturctor
@@ -136,11 +140,16 @@ class App extends Component {
     });
   }
 
+  //----------------------------------------------------------------//
+  //-----------------Handling Quantity Functionality---------------//
+  //--------------------------------------------------------------//
+
   //Helps the quantity select drop down
-  handleQuantity(event) {
+  handleQuantity (event) {
     event.preventDefault();
     let quantitySelected = event.target.value;
     console.log(quantitySelected);
+
     this.state.quantityHandled.push(quantitySelected);
     this.setState({
       value: quantitySelected
@@ -152,9 +161,34 @@ class App extends Component {
     event.preventDefault();
     let submittedQuantity = this.state.value;
     console.log(submittedQuantity);
+
     this.state.quantity.push(submittedQuantity);
     this.setState({
       value: submittedQuantity 
+    });
+  }
+
+  //Helps the quantity Edited select drop down
+  handleEditQuantity (event) {
+    event.preventDefault();
+    let quantityEditSelected = event.target.value;
+    console.log(quantityEditSelected);
+
+    this.state.quantityEditHandled.push(quantityEditSelected);
+    this.setState({
+      value: quantityEditSelected
+    });
+  } 
+
+  //Stores the Quantity for the Edited Product
+  submitEditQuantity (event) {
+    event.preventDefault();
+    let submittedEditQuantity = this.state.editValue;
+    console.log(submittedEditQuantity);
+
+    this.state.editQuantity.push(submittedEditQuantity);
+    this.setState({
+      value: submittedEditQuantity 
     });
   }
 
@@ -481,6 +515,10 @@ class App extends Component {
             handleQuantity={this.props.handleQuantity}
             handleEditToggle={this.handleEditToggle}
             handleChangeProductToggle={this.handleChangeProductToggle}
+            submitEditQuantity={this.submitEditQuantity}
+            handleEditQuantity={this.handleEditQuantity}
+            editValue={this.state.editValue}
+            value={this.state.value}
           /> 
         );
       }, this);
