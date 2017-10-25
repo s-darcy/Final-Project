@@ -17,14 +17,15 @@ class SelectNewProduct extends Component {
                     <tbody>       
                         <tr>
                             <td className="cartItems">
-                                <select className="newProductToSelect" onChange={this.props.handleQuantity}>
-                                    {this.props.availableProducts.map((product, i) => {
-                                    
-                                        <option key={i} name={product.Name} value={product.ProductID}>
-                                            {product.Name}
-                                        </option>
-                                    
-                                    })}
+                                <select 
+                                    className="newProductToSelect" 
+                                    value={this.props.value} 
+                                    onChange={this.props.handleEditProduct}>
+                                        {this.props.availableProducts.map((product, i) => 
+                                            <option key={i} name={product.Name} value={product.ProductID}>
+                                                {product.Name}
+                                            </option>
+                                        )}
                                 </select>
                             </td>
                         </tr>
@@ -67,7 +68,8 @@ class SelectNewProduct extends Component {
                                 <button 
                                     className="saveChanges newProductToSelect"
                                     onClick={(event) => {
-                                        this.props.submitEditQuantity(event)
+                                        this.props.submitEditQuantity(event),
+                                        this.props.submitEditProduct(event)
                                     }}
                                 >Save</button>
                             </td>

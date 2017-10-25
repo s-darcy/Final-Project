@@ -16,7 +16,7 @@ class App extends Component {
     this.state = {
 
       //State for server 
-      availableProducts : [],
+      availableProducts : [], //Store all products on initial render
       orderPlaced : [],
       selectedProducts : [],
       insertUpdatedProducts :[],
@@ -46,6 +46,7 @@ class App extends Component {
       title: 'Craft Beer Tap Handle Store'
     };
 
+    //Functions Binding to State
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.submitQuantity = this.submitQuantity.bind(this);
@@ -69,7 +70,13 @@ class App extends Component {
     this.removeSelectedItem = this.removeSelectedItem.bind(this);
     this.changeProduct = this.changeProduct.bind(this);
     this.handleEditQuantity = this.handleEditQuantity.bind(this);
+    this.submitEditQuantity = this.submitEditQuantity.bind(this);
+    this.submitEditProduct = this.submitEditProduct.bind(this);
+    this.handleEditProduct= this.handleEditProduct.bind(this);
     
+
+     
+    //Calls all the Product details on initial render
     this.fetchProducts();
   } // End of Consturctor
 
@@ -141,7 +148,7 @@ class App extends Component {
   }
 
   //----------------------------------------------------------------//
-  //-----------------Handling Quantity Functionality---------------//
+  //-----------------Handling Select Functionality---------------//
   //--------------------------------------------------------------//
 
   //Helps the quantity select drop down
@@ -183,13 +190,25 @@ class App extends Component {
   //Stores the Quantity for the Edited Product
   submitEditQuantity (event) {
     event.preventDefault();
-    let submittedEditQuantity = this.state.editValue;
+    let submittedEditQuantity = this.state.value;
     console.log(submittedEditQuantity);
 
     this.state.editQuantity.push(submittedEditQuantity);
     this.setState({
       value: submittedEditQuantity 
     });
+  }
+
+   //Helps the quantity select drop down
+   handleEditProduct (event) {
+    event.preventDefault();
+
+  } 
+  
+  //Quantity that renders in the shopping cart
+  submitEditProduct (event) {
+    event.preventDefault();
+
   }
 
   //Renders the product and the price in the shopping cart
@@ -452,6 +471,7 @@ class App extends Component {
   render() {
     var table = {width: '100%'};
     
+    //Setting State in Render 
     let title = this.state.title;
     let quantity = this.state.quantity;
     let products = this.state.products;
@@ -512,13 +532,15 @@ class App extends Component {
             productToggle={productToggle}
             changeProduct={this.changeProduct}
             availableProducts={this.state.availableProducts}
-            handleQuantity={this.props.handleQuantity}
+            handleQuantity={this.handleQuantity}
             handleEditToggle={this.handleEditToggle}
             handleChangeProductToggle={this.handleChangeProductToggle}
             submitEditQuantity={this.submitEditQuantity}
             handleEditQuantity={this.handleEditQuantity}
             editValue={this.state.editValue}
             value={this.state.value}
+            submitEditProduct={this.submitEditProduct}
+            handleEditProduct={this.handleEditProduct}
           /> 
         );
       }, this);
