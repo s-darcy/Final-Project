@@ -512,7 +512,7 @@ class App extends Component {
     //Push the newly merged product into State
     this.state.updateProduct.push(mergeNewlySelectedProduct);
     this.setState({
-      value: mergeNewlySelectedProduct
+      updateProduct: mergeNewlySelectedProduct
     });
 
     //Sending new product to the server
@@ -521,7 +521,7 @@ class App extends Component {
     }
 
     // superagent.post(`http://localhost:5000/updateproduct`)
-    // .send(mergeNewlySelectedProduct)
+    // .send(newProductToAddDetails)
     // .then(
     //   (res) => {
     //     this.setState({

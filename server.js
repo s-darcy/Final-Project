@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 const mysql = require('mysql');
 
+//Port details and login credentials to have access to MYSQL DB
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -13,6 +14,7 @@ var connection = mysql.createConnection({
   port: 8889
 });
 
+//Establishing a connection and returning an error if we can't connect to the DB
 connection.connect((err) => {
     if(err){
         console.log("Error connecting to Shane's Database");
@@ -21,9 +23,14 @@ connection.connect((err) => {
     }
 });
 
+//we're creating an instance of Express so that we have access to
+//it's behind the scenes functionality
 const app = express();
+//Router give us access to Express route handling capabilities
 const router = express.Router();
 
+//bodyParser() allows form data to be available in req.body 
+//by parsing the json to construct a JavaScript object
 app.use(bodyParser.json());
 
 //Pulls all the products details from TapHandles table 
@@ -118,17 +125,18 @@ router.post('/addpost', (req, res) => {
 //Updating an Order by adding a newly selected producted and deleting the old one
 router.post('/updateproduct', (req, res) => {
 
-    let updateProducts = req.body.updateProducts;
+    let selectedProducts = req.body.selectedProducts;
     let insertProductsQuery = `INSERT INTO
         BreweryTapHandles.SelectedProducts (OrderID, ProductID, Quantity)
     VALUES `;
 
-    //Looping over the products and inserting a comma for MYSQL syntax
-    for (let key in updateProducts) {
+    //Looping over the products and inserting a comma for MYSQL syntax 
+    //and combining the MYSQL code with out dynamic product items
+    for (let key in selectedProducts) {
         if (key != 0) {
             insertProductsQuery += `, `;
         }
-        insertProductsQuery += `(${updateProducts[key].orderID}, ${updateProducts[key].productID}, ${updateProducts[key].quantity})`;
+        insertProductsQuery += `(${selectedProducts[key].orderID}, ${selectedProducts[key].productID}, ${selectedProducts[key].quantity})`;
     }
 
     //Connecting to the DB and inserting the products into 
@@ -145,7 +153,7 @@ router.post('/updateproduct', (req, res) => {
     });
 });
 
-//Delete an entire order 
+//Delete an entire order from the Orders Table
 router.delete('/deletepost/:id', (req, res) => {
     let sql = `DELETE FROM BreweryTapHandles.Order WHERE OrderID = ${req.params.id}`;
     connection.query(sql, (err, result) => {

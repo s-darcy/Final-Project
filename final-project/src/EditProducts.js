@@ -19,7 +19,9 @@ class EditProducts extends Component {
                 handleEditProduct={this.props.handleEditProduct}
                 productName={this.props.productName}
                 editOrder={this.props.editOrder}
-                updateByRemovingOneItem={this.props.updateByRemovingOneItem}   
+                updateByRemovingOneItem={this.props.updateByRemovingOneItem}
+                handleEditRemove={this.props.handleEditRemove}
+                editProducts={this.props.editProducts}   
             /> 
         
         return (

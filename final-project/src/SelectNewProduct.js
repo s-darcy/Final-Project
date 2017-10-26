@@ -65,17 +65,22 @@ class SelectNewProduct extends Component {
                     </thead> 
                     <tbody>
                         <tr>
-                            <td >
+                        
+                            <td className="eraseButtons">
+                            {this.props.editProducts.map((editProduct, i) => 
                                 <button 
-                                    className="saveChanges newProductToSelect"
+                                    className="saveChanges  newProductToSelect"
                                     onClick={(event) => {
                                         this.props.submitEditQuantity(event),
                                         this.props.submitEditProduct(event),
                                         this.props.editOrder(event),
-                                        this.props.updateByRemovingOneItem(event) 
+                                        this.props.updateByRemovingOneItem(event),
+                                        this.props.handleEditRemove(editProduct.SelectedProductsID, event) 
                                     }}
                                 >Save</button>
+                                 )}
                             </td>
+                           
                         </tr>
                     </tbody>   
                 </table>

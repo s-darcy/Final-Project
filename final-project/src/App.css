@@ -179,6 +179,10 @@ select, label {
     height: 21px;
 }
 
+.eraseButtons > button:not(:first-child) {
+    display: none;
+}
+
 .total {
     background-color: navy;
     color: white;
