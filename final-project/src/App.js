@@ -40,13 +40,14 @@ class App extends Component {
       editSelectedProduct : [],
       editProductHandled : [],
       idText : [],
+      updateProduct : [],
       value : '',
       editValue : '',
       searchIDText : '',
       totalPrice : '',
       productName : '',
 
-      title: 'Craft Beer Tap Handle Store'
+      title: 'The Tap Handle'
     };
 
     //Functions Binding to State
@@ -71,13 +72,11 @@ class App extends Component {
     this.editOrder = this.editOrder.bind(this);
     this.handleEditRemove = this.handleEditRemove.bind(this);
     this.removeSelectedItem = this.removeSelectedItem.bind(this);
-    this.changeProduct = this.changeProduct.bind(this);
     this.handleEditQuantity = this.handleEditQuantity.bind(this);
     this.submitEditQuantity = this.submitEditQuantity.bind(this);
     this.submitEditProduct = this.submitEditProduct.bind(this);
     this.handleEditProduct= this.handleEditProduct.bind(this);
-    
-
+    this.editOrder = this.editOrder.bind(this);
      
     //Calls all the Product details on initial render
     this.fetchProducts();
@@ -151,7 +150,7 @@ class App extends Component {
   }
 
   //----------------------------------------------------------------//
-  //-----------------Handling Select Functionality---------------//
+  //-----------------Handling Select Functionality-----------------//
   //--------------------------------------------------------------//
 
   //Helps the quantity select drop down
@@ -170,7 +169,6 @@ class App extends Component {
   submitQuantity (event) {
     event.preventDefault();
     let submittedQuantity = this.state.value;
-    console.log(submittedQuantity);
 
     this.state.quantity.push(submittedQuantity);
     this.setState({
@@ -182,7 +180,6 @@ class App extends Component {
   handleEditQuantity (event) {
     event.preventDefault();
     let quantityEditSelected = event.target.value;
-    console.log(quantityEditSelected);
 
     this.state.quantityEditHandled.push(quantityEditSelected);
     this.setState({
@@ -194,7 +191,6 @@ class App extends Component {
   submitEditQuantity (event) {
     event.preventDefault();
     let submittedEditQuantity = this.state.value;
-    console.log(submittedEditQuantity);
 
     this.state.editQuantity.push(submittedEditQuantity);
     this.setState({
@@ -263,12 +259,6 @@ class App extends Component {
   refreshPage() {
     window.location.reload();
   } 
-
-  //After Edit clicked, this function will add a drop down 
-  //to allow the ability to select new product and new quantity
-  changeProduct(event){
-
-  }
 
   //Removes the one products from state and uploads a new array
   handleEditRemove(product, event) {
@@ -380,6 +370,7 @@ class App extends Component {
     let mergedQuantityProduct = _.merge(quantitySelected, orderProductID);
     console.log(mergedQuantityProduct);
 
+    //Adding the products to the Server with POST request
     let requestObject = {
       "selectedProducts" : mergedQuantityProduct
     }
@@ -450,8 +441,6 @@ class App extends Component {
   //Removes one Item from SelectedProducts Table
   removeSelectedItem (SelectedProductsID, event) {
     event.preventDefault();
-    // let removeProduct = this.state.editProducts.SelectedProductsID;
-    // console.log(removeProduct);
 
     superagent.delete(`http://localhost:5000/removeproduct/${SelectedProductsID}`)
     .send(SelectedProductsID)
@@ -465,17 +454,47 @@ class App extends Component {
     );
   }
 
-  //Edits an Order in DB
+  //Edits an Order in DB by Adding a newly Selected Product to Order
   editOrder (event) {
     event.preventDefault();
-    let searchedID = this.state.searchIDText;
-    console.log(searchedID);
 
-    // superagent.put(`http://localhost:5000/updatepost/${searchedID}`)
-    // .send(searchedID)
+    //Grabbing the productID from the selected product
+    let theEditedProductName = this.state.editProductHandled.map((productID)=>{
+      return {"productID" : productID};
+    });
+    
+    //Product IDs mapping to Object
+    let theEditedQuantity = this.state.editQuantity.map((quantity) => {
+      return {"quantity" : quantity};
+    });
+
+    //OrderID from current Order to bundle up with newly selected product
+    let previousOrderID = this.state.previousOrder.map((previous) => {
+      return {"OrderID" : previous.OrderID};
+    });
+
+    //Lodash merges the two arrays into one Object
+    let mergeNewlySelectedProduct = _.merge(theEditedProductName, theEditedQuantity, previousOrderID);
+    console.log(mergeNewlySelectedProduct);
+
+    //Push the newly merged product into State
+    this.state.updateProduct.push(mergeNewlySelectedProduct);
+    this.setState({
+      value: mergeNewlySelectedProduct
+    });
+
+    //Sending new product to the server
+    let newProductToAddDetails = {
+      "selectedProducts" : mergeNewlySelectedProduct
+    }
+
+    // superagent.post(`http://localhost:5000/updateproduct`)
+    // .send(mergeNewlySelectedProduct)
     // .then(
     //   (res) => {
-    //     console.log(res.status);
+    //     this.setState({
+    //       customerID: res.body.orderID
+    //     });
     //   }
     // );
   }

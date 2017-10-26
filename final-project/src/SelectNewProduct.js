@@ -70,7 +70,8 @@ class SelectNewProduct extends Component {
                                     className="saveChanges newProductToSelect"
                                     onClick={(event) => {
                                         this.props.submitEditQuantity(event),
-                                        this.props.submitEditProduct(event)
+                                        this.props.submitEditProduct(event),
+                                        this.props.editOrder(event)
                                     }}
                                 >Save</button>
                             </td>

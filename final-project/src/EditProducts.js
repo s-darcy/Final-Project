@@ -17,7 +17,8 @@ class EditProducts extends Component {
                 value={this.props.value}
                 submitEditProduct={this.props.submitEditProduct}
                 handleEditProduct={this.props.handleEditProduct}
-                productName={this.props.productName}   
+                productName={this.props.productName}
+                editOrder={this.props.editOrder}   
             /> 
         
         return (
@@ -64,7 +65,6 @@ class EditProducts extends Component {
                                         <button 
                                             className="edit1Item"
                                             onClick={(event) => {
-                                                this.props.changeProduct(event),
                                                 this.props.handleChangeProductToggle(event)
                                             }}>
                                             Edit

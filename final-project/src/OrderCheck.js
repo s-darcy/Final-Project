@@ -25,6 +25,7 @@ class OrderCheck extends Component {
                 submitEditProduct={this.props.submitEditProduct}
                 handleEditProduct={this.props.handleEditProduct}
                 productName={this.props.productName}
+                editOrder={this.props.editOrder} 
             /> 
 
       return (

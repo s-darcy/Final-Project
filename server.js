@@ -94,6 +94,7 @@ router.post('/addpost', (req, res) => {
             BreweryTapHandles.SelectedProducts (OrderID, ProductID, Quantity)
         VALUES `;
 
+        //Combining the MYSQL Insert Into code with our values from React's state
         for (let key in selectedProducts) {
             if (key != 0) {
                 insertProductsQuery += `, `;
@@ -114,44 +115,32 @@ router.post('/addpost', (req, res) => {
     });
 });
 
-// //Update an order the quantity 
-// router.put('/updatepost/:id', (req, res) => {
-//     let newQuantity = 'Updated Quantity';
-//     let sql = `UPDATE \`Order\` SET Quantity = '${newQuantity}' WHERE OrderID = ${req.params.id}`;
-//     connection.query(sql, (err, result) => {
-//         if(err){
-//             return res.send();
-//         }
-//         res.json(result);
-//         console.log(result);
-//         res.send('Post updated...');
-//     });
-// });
+//Updating an Order by adding a newly selected producted and deleting the old one
+router.post('/updateproduct', (req, res) => {
 
-//(NOT WORKING YET)Update an order
-router.put('/updatepost/:id', (req, res) => {
-    
-    let productsToUpdate = req.body.productsToUpdate;
+    let updateProducts = req.body.updateProducts;
+    let insertProductsQuery = `INSERT INTO
+        BreweryTapHandles.SelectedProducts (OrderID, ProductID, Quantity)
+    VALUES `;
 
-    let insertUpdatedProducts = 
-    `UPDATE BreweryTapHandles.SelectedProducts
-    SET (ProductID, Quantity) 
-    WHERE SelectedProductsID = ${req.params.id}`;
-
-    for (let key in productsToUpdate) {
+    //Looping over the products and inserting a comma for MYSQL syntax
+    for (let key in updateProducts) {
         if (key != 0) {
-            insertUpdatedProducts += `, `;
+            insertProductsQuery += `, `;
         }
-        insertUpdatedProducts += `(${productsToUpdate[key].productID}, ${productsToUpdate[key].quantity})`;
+        insertProductsQuery += `(${updateProducts[key].orderID}, ${updateProducts[key].productID}, ${updateProducts[key].quantity})`;
     }
 
-    connection.query(insertUpdatedProducts, (err, result) => {
+    //Connecting to the DB and inserting the products into 
+    //the existing Order's Selected Products table
+    connection.query(insertProductsQuery, (err, result) => {
         if(err){
-            throw err;;
+            throw err;
         }
-        console.log(result);
+        // console.log(result);
         res.json({
-            message: 'Post updated...'
+            message: 'Updated 1 product...',
+            orderID
         });
     });
 });

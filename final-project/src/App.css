@@ -2,6 +2,7 @@
 
 body {
     margin: 2%;
+    background-color: #EFEFDD;
 }
 
 h1, h2, h3, p {
@@ -12,7 +13,7 @@ h1 {
     font-size: 4rem;
     max-width: 70%;
     display: inline-block;
-    margin-left: 4%;
+    margin: 0% 0% 1.5% 4%;
 }
 
 h2 {
