@@ -39,6 +39,7 @@ class App extends Component {
       quantityEditHandled : [],
       editSelectedProduct : [],
       editProductHandled : [],
+      productToRemove : [],
       idText : [],
       updateProduct : [],
       value : '',
@@ -77,6 +78,8 @@ class App extends Component {
     this.submitEditProduct = this.submitEditProduct.bind(this);
     this.handleEditProduct= this.handleEditProduct.bind(this);
     this.editOrder = this.editOrder.bind(this);
+    this.removeOneProductFromOrder = this.removeOneProductFromOrder.bind(this);
+    this.updateByRemovingOneItem = this.updateByRemovingOneItem.bind(this);
      
     //Calls all the Product details on initial render
     this.fetchProducts();
@@ -260,6 +263,16 @@ class App extends Component {
     window.location.reload();
   } 
 
+  //Store the SelectProductID to remove so we can reference it in CRUD/Server request
+  removeOneProductFromOrder (SelectedProductsID, event) {
+    event.preventDefault();
+
+    this.state.productToRemove.push(SelectedProductsID);
+    this.setState({
+      value :  SelectedProductsID
+    });
+  }
+
   //Removes the one products from state and uploads a new array
   handleEditRemove(product, event) {
     event.preventDefault();
@@ -438,12 +451,31 @@ class App extends Component {
     );
   }
 
-  //Removes one Item from SelectedProducts Table
+  //Removes one Item from SelectedProducts Table when "Remove" button is clicked
+  //this one will not be replaced with another product
   removeSelectedItem (SelectedProductsID, event) {
     event.preventDefault();
 
     superagent.delete(`http://localhost:5000/removeproduct/${SelectedProductsID}`)
     .send(SelectedProductsID)
+    .then(
+      (res) => {
+        console.log(res.status, res.body);
+
+        this.state.editProducts.push(res.body);
+        console.log(res.body);
+      }
+    );
+  }
+
+  //Removes one Item from SelectedProducts Table 
+  //then another product will be added to the DB
+  updateByRemovingOneItem (event) {
+    event.preventDefault();
+
+    let itemToBeRemoved = this.state.productToRemove;
+    superagent.delete(`http://localhost:5000/removeproduct/${itemToBeRemoved}`)
+    .send(itemToBeRemoved)
     .then(
       (res) => {
         console.log(res.status, res.body);
@@ -578,6 +610,8 @@ class App extends Component {
             submitEditProduct={this.submitEditProduct}
             handleEditProduct={this.handleEditProduct}
             productName={this.props.productName}
+            removeOneProductFromOrder={this.removeOneProductFromOrder}
+            updateByRemovingOneItem={this.updateByRemovingOneItem} 
           /> 
         );
       }, this);

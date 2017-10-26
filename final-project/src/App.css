@@ -2,7 +2,7 @@
 
 body {
     margin: 2%;
-    background-color: #EFEFDD;
+    background-color: rgba(241, 233, 211, 0.5);
 }
 
 h1, h2, h3, p {
@@ -260,6 +260,10 @@ select, label {
 
 .thankYou {
     text-align: center;
+}
+
+.thanks {
+    font-size: 1.7rem;
 }
 
 .beerTapPics {

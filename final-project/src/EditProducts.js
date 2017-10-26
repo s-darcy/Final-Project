@@ -18,7 +18,8 @@ class EditProducts extends Component {
                 submitEditProduct={this.props.submitEditProduct}
                 handleEditProduct={this.props.handleEditProduct}
                 productName={this.props.productName}
-                editOrder={this.props.editOrder}   
+                editOrder={this.props.editOrder}
+                updateByRemovingOneItem={this.props.updateByRemovingOneItem}   
             /> 
         
         return (
@@ -64,8 +65,10 @@ class EditProducts extends Component {
                                         {editProduct.Quantity}
                                         <button 
                                             className="edit1Item"
+                                            value={editProduct.SelectedProductsID} 
                                             onClick={(event) => {
-                                                this.props.handleChangeProductToggle(event)
+                                                this.props.handleChangeProductToggle(event),
+                                                this.props.removeOneProductFromOrder(editProduct.SelectedProductsID, event)
                                             }}>
                                             Edit
                                         </button>  
@@ -74,7 +77,8 @@ class EditProducts extends Component {
                                             className="delete1Item" 
                                             onClick={(event) => {
                                                 this.props.removeSelectedItem(editProduct.SelectedProductsID, event),
-                                                this.props.handleEditRemove(editProduct.SelectedProductsID, event)
+                                                this.props.handleEditRemove(editProduct.SelectedProductsID, event),
+                                                this.props.removeOneProductFromOrder(editProduct.SelectedProductsID, event)
                                         }}>
                                         Remove</button>
                                     </td>

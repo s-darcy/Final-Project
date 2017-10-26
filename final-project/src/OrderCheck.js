@@ -26,6 +26,8 @@ class OrderCheck extends Component {
                 handleEditProduct={this.props.handleEditProduct}
                 productName={this.props.productName}
                 editOrder={this.props.editOrder} 
+                removeOneProductFromOrder={this.props.removeOneProductFromOrder}
+                updateByRemovingOneItem={this.props.updateByRemovingOneItem}  
             /> 
 
       return (

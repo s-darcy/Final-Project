@@ -11,7 +11,7 @@ class SelectNewProduct extends Component {
                 <table className="innerTables headerNameMobile headerName">
                     <thead>
                         <tr>
-                            <th>Select New Tap Handle</th>
+                            <th>Select New Tap Handle To Replace</th>
                         </tr>  
                     </thead>
                     <tbody>       
@@ -71,7 +71,8 @@ class SelectNewProduct extends Component {
                                     onClick={(event) => {
                                         this.props.submitEditQuantity(event),
                                         this.props.submitEditProduct(event),
-                                        this.props.editOrder(event)
+                                        this.props.editOrder(event),
+                                        this.props.updateByRemovingOneItem(event) 
                                     }}
                                 >Save</button>
                             </td>
